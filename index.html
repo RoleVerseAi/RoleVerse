@@ -63,7 +63,6 @@
     .bg-orb:nth-child(3) { width:200px; height:200px; background:var(--neon-purple); bottom:10%; left:20%; animation-delay:-9s; animation-duration:19s; }
     @keyframes floatOrb { 0%,100%{transform:translate(0,0) scale(1);} 25%{transform:translate(40px,-50px) scale(1.15);} 50%{transform:translate(-20px,-30px) scale(0.9);} 75%{transform:translate(-35px,40px) scale(1.1);} }
 
-    /* NEW: Centered main container vertically & horizontally */
     .main-container { 
       position: relative; 
       z-index: 1; 
@@ -75,7 +74,6 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      /* Keep the bottom space for nav, but centering will handle it with padding-bottom on body */
     }
     .glass-card {
       background: var(--bg-card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
@@ -243,11 +241,15 @@
   <!-- Notification Bell -->
   <div class="notif-bell" id="notifBell"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div class="notif-bell-dot" id="notifBellDot"></div></div>
 
-  <!-- Notification Modal -->
+  <!-- Notification Modal (no link, just welcome message) -->
   <div class="notif-modal-overlay" id="notifModalOverlay">
     <div class="notif-modal">
-      <div style="position:relative;"><img id="notifModalImg" src="" style="width:100%;height:170px;object-fit:cover;" alt=""><button id="notifModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;">✕</button></div>
-      <div style="padding:20px 18px;text-align:center;"><h3 id="notifModalTitle"></h3><p id="notifModalDesc" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;"></p><a id="notifModalBtn" class="btn btn-primary btn-sm" href="#" target="_blank">Learn More</a></div>
+      <div style="position:relative;"><img id="notifModalImg" src="" style="width:100%;height:170px;object-fit:cover;" alt="Welcome"><button id="notifModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;">✕</button></div>
+      <div style="padding:20px 18px;text-align:center;">
+        <h3 id="notifModalTitle"></h3>
+        <p id="notifModalDesc" style="font-size:0.85rem;color:var(--text-muted);margin-top:12px;"></p>
+        <!-- No link/button -->
+      </div>
     </div>
   </div>
 
@@ -359,15 +361,14 @@
       const CONFIG = {
         app_name: 'RoleVerse AI',
         app_logo: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
-        chat_url: 'https://perchance.org/roleverse',
+        chat_url: 'https://perchance.org/roleverse',   // Start Chatting redirect (internal)
         privacy_url: 'https://roleverseai.blogspot.com/p/privacy-policy.html',
         terms_url: 'https://roleverseai.blogspot.com/p/terms-of-service.html',
         notification_enabled: true,
         notification_title: 'Welcome to RoleVerse AI! 🚀',
-        notification_description: 'Make friends, chat with AI characters, and generate images while chatting.',
-        notification_image: 'https://picsum.photos/seed/notif-banner/600/300',
-        notification_button_text: 'Get Started',
-        notification_button_url: 'https://perchance.org/roleverse',
+        notification_description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
+        notification_image: 'https://picsum.photos/seed/welcome/600/300', // welcome image
+        // notification_button_url is removed (no link)
         social: [
           { platform: 'Telegram', url: 'https://t.me/roleverseai', icon: 'telegram' },
           { platform: 'YouTube', url: 'https://youtube.com/@roleverseai', icon: 'youtube' },
@@ -388,7 +389,6 @@
           { name: 'Rex Blaze', personality: 'Rebellious, witty, protective', description: 'A cyberpunk hacker with a heart of gold.' },
           { name: 'Aria Wave', personality: 'Calm, creative, curious', description: 'An ocean‑inspired dreamer who finds beauty in every ripple.' }
         ],
-        // All provided image URLs
         galleryImages: [
           "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMSxx1dIb2AAnXLM5Sd2_Z598QcHOQuzJok5V3Qy2lZkPcW0GubEWZoAV2_9SUtduPwqLSGEoljIiR-6snvG9UcKYtthbCRh_3dkdcQ6wsai91BUaBHGeQX-3I4hb7R-_0Ldc-EuTbpOlcpC0dx2G3oktihV9zXHz8bkWnj9Gf4EhVK_99ADD2anliawo/s768/6ccfbf58ce124995d08fd038b8ff30f429e5c70ebb18c81ea6cdf369b2b1c8d1.jpeg",
           "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCPOiHmnGNgWGAh5S_1-xzGux6xQel4YZIdCFGVxK6D3RmNDZRyxO4ve2KQogdIQpI1fXiJFchNzmG-0u8Cuy2PbtbgPkdpPUv8UJWJEWgtnPR1ra9wvNwE5aNaatDJ92j8lC37W6oXONfZptTUGx2yfhTVjTLauQFU_gl2mNPBbJmI-Kwu1J27tF1Pyg/s768/80fedd55fdab009d1ed5e25842fec03b399b747a3333d0df1f94bb8da93531cd.jpeg",
@@ -428,7 +428,6 @@
       const notifModalImg = $('#notifModalImg');
       const notifModalTitle = $('#notifModalTitle');
       const notifModalDesc = $('#notifModalDesc');
-      const notifModalBtn = $('#notifModalBtn');
       const notifModalClose = $('#notifModalClose');
       const btnStartChatting = $('#btnStartChatting');
       const featuresGrid = $('#featuresGrid');
@@ -492,7 +491,7 @@
             <div class="field"><strong>Description:</strong> ${c.description}</div>
             <button class="copy-btn" data-copy="Name: ${c.name}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
           </div>
-        `).join('') + `<a href="https://t.me/roleverseai" target="_blank" class="btn btn-secondary more-ideas-btn">✨ More Character Ideas</a>`;
+        `).join('') + `<a href="https://t.me/roleverseai" target="_blank" rel="noopener" class="btn btn-secondary more-ideas-btn">✨ More Character Ideas</a>`;
 
         document.querySelectorAll('.copy-btn').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -515,7 +514,6 @@
         }
         updateGallery();
         shuffleBtn.addEventListener('click', updateGallery);
-        // Auto refresh every 4 seconds
         setInterval(updateGallery, 4000);
 
         // Social icons with real platform colors
@@ -534,17 +532,16 @@
         updateNotificationUI();
       }
 
-      // ==================== NOTIFICATION ====================
-      const NOTIF_KEY = 'rv_notif_v2';
-      function getNotifHash() { return JSON.stringify({t:CONFIG.notification_title,d:CONFIG.notification_description,i:CONFIG.notification_image,b:CONFIG.notification_button_text,l:CONFIG.notification_button_url,e:CONFIG.notification_enabled}); }
+      // ==================== NOTIFICATION (no link, welcome only) ====================
+      const NOTIF_KEY = 'rv_notif_v3';
+      function getNotifHash() { return JSON.stringify({t:CONFIG.notification_title,d:CONFIG.notification_description,i:CONFIG.notification_image,e:CONFIG.notification_enabled}); }
       function updateNotificationUI() {
         if (!CONFIG.notification_enabled) { notifBell.style.display='none'; return; }
         notifBell.style.display='flex';
         notifModalTitle.textContent = CONFIG.notification_title;
         notifModalDesc.textContent = CONFIG.notification_description;
-        notifModalBtn.textContent = CONFIG.notification_button_text;
-        notifModalBtn.href = CONFIG.notification_button_url;
         notifModalImg.src = CONFIG.notification_image || '';
+        // no link button
         const hash = getNotifHash();
         const stored = JSON.parse(localStorage.getItem(NOTIF_KEY) || '{}');
         if (stored.hash === hash && stored.seen) { notifBellDot.style.display='none'; }
@@ -556,7 +553,7 @@
       notifModalClose.addEventListener('click', hideNotifModal);
       notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
 
-      // ==================== LOADING & REDIRECT ====================
+      // ==================== LOADING & REDIRECT (only start chatting redirects internally) ====================
       const stages = ['Initializing AI','Fetching Database','Secure Session','Optimizing Chat','Launching Interface'];
       loadingStages.innerHTML = stages.map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;font-size:0.85rem;color:var(--text-muted);"><span class="stage-dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);"></span>${s}</div>`).join('');
 
