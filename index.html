@@ -63,7 +63,18 @@
     .bg-orb:nth-child(3) { width:200px; height:200px; background:var(--neon-purple); bottom:10%; left:20%; animation-delay:-9s; animation-duration:19s; }
     @keyframes floatOrb { 0%,100%{transform:translate(0,0) scale(1);} 25%{transform:translate(40px,-50px) scale(1.15);} 50%{transform:translate(-20px,-30px) scale(0.9);} 75%{transform:translate(-35px,40px) scale(1.1);} }
 
-    .main-container { position:relative; z-index:1; max-width:500px; margin:0 auto; padding:0 16px; }
+    .main-container { 
+      position: relative; 
+      z-index: 1; 
+      max-width: 500px; 
+      margin: 0 auto; 
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
     .glass-card {
       background: var(--bg-card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
       border:1px solid var(--glass-border); border-radius:var(--radius-lg); box-shadow: 0 8px 40px rgba(0,0,0,0.5);
@@ -89,12 +100,10 @@
     .btn-secondary { background: rgba(255,255,255,0.06); color:var(--text-primary); border:1px solid var(--glass-border-strong); backdrop-filter:blur(8px); }
     .btn-sm { padding:10px 18px; font-size:0.85rem; border-radius:10px; min-height:38px; }
 
-    /* Page system */
-    .page { display:none; }
+    .page { display:none; width:100%; }
     .page.active { display:block; animation: fadeSlideIn 0.4s ease; }
     @keyframes fadeSlideIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
 
-    /* Hero */
     .hero-section { text-align:center; padding:30px 8px 20px; }
     .hero-img-container {
       width:100%; max-width:400px; height:300px; margin:0 auto 18px; border-radius:var(--radius-lg);
@@ -121,7 +130,6 @@
     .section-subtitle { text-align:center; color:var(--text-muted); font-size:0.9rem; margin-bottom:24px; }
     .section-spacing { padding:36px 0 20px; }
 
-    /* Features */
     .features-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
     .feature-card {
       padding:20px 14px; text-align:center; border-radius:var(--radius-lg); background:var(--bg-card);
@@ -136,7 +144,6 @@
     .feature-card:hover { border-color:var(--glass-border-strong); transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
     .feature-icon { font-size:2rem; margin-bottom:8px; display:block; }
 
-    /* Character design guide */
     .guide-card {
       padding:20px 18px; border-radius:var(--radius-lg); background:var(--bg-card); backdrop-filter:blur(20px);
       border:1px solid var(--glass-border); margin-bottom:14px;
@@ -151,7 +158,6 @@
     .copy-btn:hover { background:rgba(255,255,255,0.1); color:#fff; }
     .more-ideas-btn { display:block; width:100%; margin-top:20px; }
 
-    /* Gallery dynamic */
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
     .gallery-item {
       border-radius:var(--radius-md); overflow:hidden; aspect-ratio:1; background:rgba(20,20,40,0.6);
@@ -164,7 +170,6 @@
       border:1px solid var(--glass-border); padding:8px 18px; border-radius:20px; cursor:pointer;
     }
 
-    /* Social cards */
     .social-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(80px,1fr)); gap:16px; }
     .social-card {
       display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 10px;
@@ -216,7 +221,6 @@
 </head>
 <body>
   <div class="bg-orbs"><div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div></div>
-  <iframe id="preloadIframe" style="display:none;width:1px;height:1px;position:absolute;visibility:hidden;" sandbox="allow-scripts allow-same-origin"></iframe>
 
   <!-- Loading Overlay -->
   <div class="loading-overlay" id="loadingOverlay">
@@ -230,11 +234,14 @@
   <!-- Notification Bell -->
   <div class="notif-bell" id="notifBell"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div class="notif-bell-dot" id="notifBellDot"></div></div>
 
-  <!-- Notification Modal -->
+  <!-- Notification Modal (welcome only) -->
   <div class="notif-modal-overlay" id="notifModalOverlay">
     <div class="notif-modal">
-      <div style="position:relative;"><img id="notifModalImg" src="" style="width:100%;height:170px;object-fit:cover;" alt=""><button id="notifModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;">✕</button></div>
-      <div style="padding:20px 18px;text-align:center;"><h3 id="notifModalTitle"></h3><p id="notifModalDesc" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;"></p><a id="notifModalBtn" class="btn btn-primary btn-sm" href="#" target="_blank">Learn More</a></div>
+      <div style="position:relative;"><img id="notifModalImg" src="" style="width:100%;height:170px;object-fit:cover;" alt="Welcome"><button id="notifModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;">✕</button></div>
+      <div style="padding:20px 18px;text-align:center;">
+        <h3 id="notifModalTitle"></h3>
+        <p id="notifModalDesc" style="font-size:0.85rem;color:var(--text-muted);margin-top:12px;"></p>
+      </div>
     </div>
   </div>
 
@@ -249,7 +256,7 @@
         <!-- How to use + Watch Tutorial -->
         <div style="margin: 12px 0;">
           <p style="font-weight:600; color:var(--neon-cyan); margin-bottom:10px;">How to use</p>
-          <a href="https://virtualdatinghub.com" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-bottom:12px;">Watch Tutorial</a>
+          <a href="https://youtube.com/@roleverseai" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-bottom:12px;">Watch Tutorial</a>
         </div>
         <button class="btn btn-primary" id="btnStartChatting">Start Chatting</button>
         <div class="legal-links" id="legalLinks"></div>
@@ -296,10 +303,10 @@
         <p class="section-subtitle">Real connections start here</p>
         <div style="text-align:center; padding:20px 10px;">
           <p style="color:var(--text-secondary); max-width:300px; margin:0 auto 20px;">
-            Meet like‑minded people, share experiences, and build meaningful friendships through our AI chat community.
+            Meet like‑minded people, share experiences, and build meaningful friendships through our virtual chat community.
           </p>
-          <a href="https://t.me/roleverseai" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;">
-            Join Our Telegram Community
+          <a href="https://virtualdatinghub.com" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;">
+            Make Real Friends Now!
           </a>
         </div>
       </section>
@@ -329,7 +336,7 @@
     </div>
   </main>
 
-  <!-- Bottom Navigation (7 items) -->
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav" id="bottomNav">
     <a class="bottom-nav-item active" data-page="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
     <a class="bottom-nav-item" data-page="features"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Features</span></a>
@@ -346,15 +353,13 @@
       const CONFIG = {
         app_name: 'RoleVerse AI',
         app_logo: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
-        chat_url: 'https://perchance.org/roleverse',
+        chat_url: 'https://perchance.org/roleverse',   // Start Chatting (internal)
         privacy_url: 'https://roleverseai.blogspot.com/p/privacy-policy.html',
         terms_url: 'https://roleverseai.blogspot.com/p/terms-of-service.html',
         notification_enabled: true,
-        notification_title: 'Welcome to RoleVerse! 🚀',
-        notification_description: 'Make friends, chat with AI characters, and generate images while chatting.',
-        notification_image: 'https://picsum.photos/seed/notif-banner/600/300',
-        notification_button_text: 'Get Started',
-        notification_button_url: 'https://perchance.org/roleverse',
+        notification_title: 'Welcome to RoleVerse AI! 🚀',
+        notification_description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
+        notification_image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
         social: [
           { platform: 'Telegram', url: 'https://t.me/roleverseai', icon: 'telegram' },
           { platform: 'YouTube', url: 'https://youtube.com/@roleverseai', icon: 'youtube' },
@@ -375,7 +380,6 @@
           { name: 'Rex Blaze', personality: 'Rebellious, witty, protective', description: 'A cyberpunk hacker with a heart of gold.' },
           { name: 'Aria Wave', personality: 'Calm, creative, curious', description: 'An ocean‑inspired dreamer who finds beauty in every ripple.' }
         ],
-        // All provided image URLs
         galleryImages: [
           "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMSxx1dIb2AAnXLM5Sd2_Z598QcHOQuzJok5V3Qy2lZkPcW0GubEWZoAV2_9SUtduPwqLSGEoljIiR-6snvG9UcKYtthbCRh_3dkdcQ6wsai91BUaBHGeQX-3I4hb7R-_0Ldc-EuTbpOlcpC0dx2G3oktihV9zXHz8bkWnj9Gf4EhVK_99ADD2anliawo/s768/6ccfbf58ce124995d08fd038b8ff30f429e5c70ebb18c81ea6cdf369b2b1c8d1.jpeg",
           "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCPOiHmnGNgWGAh5S_1-xzGux6xQel4YZIdCFGVxK6D3RmNDZRyxO4ve2KQogdIQpI1fXiJFchNzmG-0u8Cuy2PbtbgPkdpPUv8UJWJEWgtnPR1ra9wvNwE5aNaatDJ92j8lC37W6oXONfZptTUGx2yfhTVjTLauQFU_gl2mNPBbJmI-Kwu1J27tF1Pyg/s768/80fedd55fdab009d1ed5e25842fec03b399b747a3333d0df1f94bb8da93531cd.jpeg",
@@ -408,14 +412,12 @@
       const loadingProgressFill = $('#loadingProgressFill');
       const loadingPercent = $('#loadingPercent');
       const loadingStages = $('#loadingStages');
-      const preloadIframe = $('#preloadIframe');
       const notifBell = $('#notifBell');
       const notifBellDot = $('#notifBellDot');
       const notifModalOverlay = $('#notifModalOverlay');
       const notifModalImg = $('#notifModalImg');
       const notifModalTitle = $('#notifModalTitle');
       const notifModalDesc = $('#notifModalDesc');
-      const notifModalBtn = $('#notifModalBtn');
       const notifModalClose = $('#notifModalClose');
       const btnStartChatting = $('#btnStartChatting');
       const featuresGrid = $('#featuresGrid');
@@ -461,7 +463,7 @@
         heroTitle.textContent = CONFIG.app_name;
         document.title = CONFIG.app_name + ' - Make Friends & Chat';
         heroImage.src = CONFIG.app_logo;
-        legalLinks.innerHTML = `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank">Terms of Service</a>.`;
+        legalLinks.innerHTML = `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank" rel="noopener">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank" rel="noopener">Terms of Service</a>.`;
 
         featuresGrid.innerHTML = CONFIG.features.map(f => `
           <div class="feature-card">
@@ -479,7 +481,7 @@
             <div class="field"><strong>Description:</strong> ${c.description}</div>
             <button class="copy-btn" data-copy="Name: ${c.name}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
           </div>
-        `).join('') + `<a href="https://virtualdatinghub.com" target="_blank" class="btn btn-secondary more-ideas-btn">✨ More Character Ideas</a>`;
+        `).join('') + `<a href="https://t.me/roleverseai" target="_blank" rel="noopener" class="btn btn-secondary more-ideas-btn">✨ More Character Ideas</a>`;
 
         document.querySelectorAll('.copy-btn').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -502,7 +504,6 @@
         }
         updateGallery();
         shuffleBtn.addEventListener('click', updateGallery);
-        // Auto refresh every 4 seconds
         setInterval(updateGallery, 4000);
 
         // Social icons with real platform colors
@@ -521,16 +522,14 @@
         updateNotificationUI();
       }
 
-      // ==================== NOTIFICATION ====================
-      const NOTIF_KEY = 'rv_notif_v2';
-      function getNotifHash() { return JSON.stringify({t:CONFIG.notification_title,d:CONFIG.notification_description,i:CONFIG.notification_image,b:CONFIG.notification_button_text,l:CONFIG.notification_button_url,e:CONFIG.notification_enabled}); }
+      // ==================== NOTIFICATION (no link) ====================
+      const NOTIF_KEY = 'rv_notif_v3';
+      function getNotifHash() { return JSON.stringify({t:CONFIG.notification_title,d:CONFIG.notification_description,i:CONFIG.notification_image,e:CONFIG.notification_enabled}); }
       function updateNotificationUI() {
         if (!CONFIG.notification_enabled) { notifBell.style.display='none'; return; }
         notifBell.style.display='flex';
         notifModalTitle.textContent = CONFIG.notification_title;
         notifModalDesc.textContent = CONFIG.notification_description;
-        notifModalBtn.textContent = CONFIG.notification_button_text;
-        notifModalBtn.href = CONFIG.notification_button_url;
         notifModalImg.src = CONFIG.notification_image || '';
         const hash = getNotifHash();
         const stored = JSON.parse(localStorage.getItem(NOTIF_KEY) || '{}');
@@ -543,50 +542,11 @@
       notifModalClose.addEventListener('click', hideNotifModal);
       notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
 
-      // ==================== LOADING & REDIRECT ====================
-      const stages = ['Initializing AI','Fetching Database','Secure Session','Optimizing Chat','Launching Interface'];
-      loadingStages.innerHTML = stages.map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;font-size:0.85rem;color:var(--text-muted);"><span class="stage-dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);"></span>${s}</div>`).join('');
-
-      let loadingInterval;
-      let preloadStarted = false;
-      function preloadUrl(url) {
-        if (preloadStarted) return;
-        preloadStarted = true;
-        try { preloadIframe.src = url; } catch (e) {}
-      }
-      function showLoading(url) {
-        if (!url) { alert('Chat URL not configured.'); return; }
-        preloadStarted = false;
-        preloadUrl(url);
-        loadingOverlay.classList.add('visible');
-        document.body.style.overflow = 'hidden';
-        loadingProgressFill.style.width = '0%';
-        loadingPercent.textContent = '0%';
-        document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='rgba(255,255,255,0.2)');
-        let progress = 0;
-        const total = 5000;
-        const step = 20;
-        const intervalTime = total / (100/step);
-        loadingInterval = setInterval(() => {
-          progress += step;
-          if (progress >= 100) {
-            progress = 100;
-            clearInterval(loadingInterval);
-            loadingProgressFill.style.width = '100%';
-            loadingPercent.textContent = '100%';
-            document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='var(--neon-cyan)');
-            setTimeout(() => { window.location.href = url; }, 300);
-          } else {
-            loadingProgressFill.style.width = progress+'%';
-            loadingPercent.textContent = Math.round(progress)+'%';
-            const active = Math.floor(progress / 20);
-            document.querySelectorAll('.stage-dot').forEach((d,i)=>{
-              d.style.background = i < active ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.2)';
-            });
-          }
-        }, intervalTime);
-      }
-      btnStartChatting.addEventListener('click', () => showLoading(CONFIG.chat_url));
+      // ==================== START CHATTING (internal, with history) ====================
+      btnStartChatting.addEventListener('click', () => {
+        // Use window.open with _self to create WebView history entry
+        window.open(CONFIG.chat_url, '_self');
+      });
 
       // ==================== CONTACT FORM ====================
       contactForm.addEventListener('submit', (e) => {
@@ -602,4 +562,4 @@
     })();
   </script>
 </body>
-          </html>
+</html>
