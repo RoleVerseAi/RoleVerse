@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="RoleVerse AI - Premium AI Character Chat Platform. Create, chat, and generate images with AI characters.">
+  <meta name="keywords" content="AI chat, character chat, AI characters, roleplay, AI image generation">
+  <meta property="og:title" content="RoleVerse AI - Premium AI Character Chat">
+  <meta property="og:description" content="Create, chat, and generate images with AI characters. The ultimate AI companion experience.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>RoleVerse AI - Premium AI Character Chat</title>
+  <style>
+    :root {
+      --bg-deep: #06060f;
+      --bg-card: rgba(18, 18, 35, 0.55);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-strong: rgba(255, 255, 255, 0.15);
+      --neon-cyan: #00e5ff;
+      --neon-cyan-dim: rgba(0, 229, 255, 0.35);
+      --neon-magenta: #d400ff;
+      --neon-purple: #7b3fff;
+      --text-primary: #f0f0f5;
+      --text-secondary: #b0b0c0;
+      --text-muted: #707085;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --safe-bottom: env(safe-area-inset-bottom, 16px);
+      --nav-height: 68px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth; -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased; font-size: 16px;
+    }
+    body {
+      font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', -apple-system, system-ui, sans-serif;
+      background: var(--bg-deep); color: var(--text-primary); line-height: 1.6;
+      min-height: 100vh; overflow-x: hidden;
+      padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 20px);
+      background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(0,229,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(212,0,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 70%, rgba(123,63,255,0.03) 0%, transparent 60%);
+      background-attachment: fixed;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+    }
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .bg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; animation: floatOrb 15s ease-in-out infinite; }
+    .bg-orb:nth-child(1) { width:300px; height:300px; background:var(--neon-cyan); top:-80px; left:-60px; }
+    .bg-orb:nth-child(2) { width:250px; height:250px; background:var(--neon-magenta); top:40%; right:-70px; animation-delay:-5s; animation-duration:17s; }
+    .bg-orb:nth-child(3) { width:200px; height:200px; background:var(--neon-purple); bottom:10%; left:20%; animation-delay:-9s; animation-duration:19s; }
+    @keyframes floatOrb { 0%,100%{transform:translate(0,0) scale(1);} 25%{transform:translate(40px,-50px) scale(1.15);} 50%{transform:translate(-20px,-30px) scale(0.9);} 75%{transform:translate(-35px,40px) scale(1.1);} }
+
+    .main-container { position:relative; z-index:1; max-width:500px; margin:0 auto; padding:0 16px; }
+    .glass-card {
+      background: var(--bg-card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border:1px solid var(--glass-border); border-radius:var(--radius-lg); box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      transition:var(--transition-smooth);
+    }
+    .glass-input {
+      background: rgba(20,20,40,0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border:1px solid var(--glass-border); border-radius:var(--radius-md); color:var(--text-primary);
+      padding:14px 16px; font-size:1rem; width:100%; outline:none; font-family:inherit; transition:0.2s;
+    }
+    .glass-input:focus { border-color:var(--neon-cyan); box-shadow: 0 0 0 3px var(--neon-cyan-dim); }
+    .glass-input::placeholder { color:var(--text-muted); }
+    textarea.glass-input { resize:vertical; min-height:120px; }
+
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 28px;
+      border-radius:var(--radius-md); font-weight:600; font-size:0.95rem; cursor:pointer; border:none;
+      transition:var(--transition-smooth); text-decoration:none; letter-spacing:0.3px; min-height:48px;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+    }
+    .btn:active { transform:scale(0.96); }
+    .btn-primary { background: linear-gradient(135deg, #00c4e0, #00e5ff); color:#000; box-shadow:0 0 20px rgba(0,229,255,0.3); }
+    .btn-secondary { background: rgba(255,255,255,0.06); color:var(--text-primary); border:1px solid var(--glass-border-strong); backdrop-filter:blur(8px); }
+    .btn-sm { padding:10px 18px; font-size:0.85rem; border-radius:10px; min-height:38px; }
+    .btn-xs { padding:7px 14px; font-size:0.78rem; border-radius:8px; min-height:32px; }
+
+    /* Page system */
+    .page { display:none; }
+    .page.active { display:block; animation: fadeSlideIn 0.4s ease; }
+    @keyframes fadeSlideIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
+
+    /* Hero */
+    .hero-section { text-align:center; padding:30px 8px 20px; }
+    .hero-img-container {
+      width:100%; max-width:400px; height:300px; margin:0 auto 18px; border-radius:var(--radius-lg);
+      overflow:hidden; background:rgba(20,20,40,0.6); border:2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 0 35px rgba(0,229,255,0.2), 0 0 70px rgba(212,0,255,0.1);
+    }
+    .hero-img-container img { width:100%; height:100%; object-fit:cover; display:block; }
+    .hero-title {
+      font-size:2rem; font-weight:800; letter-spacing:-0.5px;
+      background: linear-gradient(135deg, #fff 30%, #00e5ff 60%, #d400ff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color:transparent;
+      margin-bottom:4px;
+    }
+    .hero-subtitle { font-size:0.95rem; color:var(--text-secondary); margin-bottom:8px; letter-spacing:1.5px; text-transform:uppercase; }
+    .hero-description { font-size:0.9rem; color:var(--text-muted); max-width:380px; margin:0 auto 20px; }
+    .legal-links { margin-top:16px; font-size:0.75rem; color:var(--text-muted); }
+    .legal-links a { color:var(--neon-cyan); text-decoration:none; margin:0 4px; }
+
+    .section-title {
+      font-size:1.5rem; font-weight:700; text-align:center; margin-bottom:6px;
+      background: linear-gradient(135deg, #fff, #c0e8ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color:transparent;
+    }
+    .section-subtitle { text-align:center; color:var(--text-muted); font-size:0.9rem; margin-bottom:24px; }
+    .section-spacing { padding:36px 0 20px; }
+
+    /* Features enhanced */
+    .features-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .feature-card {
+      padding:20px 14px; text-align:center; border-radius:var(--radius-lg); background:var(--bg-card);
+      backdrop-filter:blur(20px); border:1px solid var(--glass-border); transition:var(--transition-smooth);
+      position:relative; overflow:hidden;
+    }
+    .feature-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta)); opacity:0; transition:0.3s;
+    }
+    .feature-card:hover::before { opacity:1; }
+    .feature-card:hover { border-color:var(--glass-border-strong); transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
+    .feature-icon { font-size:2rem; margin-bottom:8px; display:block; }
+
+    /* Character design guide */
+    .guide-card {
+      padding:20px 18px; border-radius:var(--radius-lg); background:var(--bg-card); backdrop-filter:blur(20px);
+      border:1px solid var(--glass-border); margin-bottom:14px;
+    }
+    .guide-card h4 { font-size:1rem; color:var(--neon-cyan); margin-bottom:8px; }
+    .guide-card .field { margin-bottom:8px; font-size:0.9rem; }
+    .guide-card .field strong { color:var(--text-secondary); display:inline-block; width:80px; }
+    .copy-btn {
+      background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); color:var(--text-secondary);
+      padding:6px 12px; border-radius:8px; font-size:0.75rem; cursor:pointer; transition:0.2s;
+    }
+    .copy-btn:hover { background:rgba(255,255,255,0.1); color:#fff; }
+    .more-ideas-btn { display:block; width:100%; margin-top:20px; }
+
+    .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .gallery-item { border-radius:var(--radius-md); overflow:hidden; aspect-ratio:1; background:rgba(20,20,40,0.6); border:1px solid var(--glass-border); }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; }
+
+    .social-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(80px,1fr)); gap:16px; }
+    .social-card {
+      display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 10px;
+      border-radius:var(--radius-lg); background:var(--bg-card); backdrop-filter:blur(20px);
+      border:1px solid var(--glass-border); transition:var(--transition-smooth); text-decoration:none; color:inherit;
+    }
+    .social-card:hover { border-color:var(--glass-border-strong); transform:translateY(-3px); }
+    .social-card img, .social-card svg { width:36px; height:36px; margin-bottom:6px; }
+    .social-card span { font-size:0.75rem; font-weight:500; }
+
+    .bottom-nav {
+      position:fixed; bottom:0; left:50%; transform:translateX(-50%); z-index:100; width:calc(100% - 20px);
+      max-width:460px; background:rgba(12,12,26,0.75); backdrop-filter:blur(28px);
+      border:1px solid var(--glass-border-strong); border-radius:20px; display:flex; justify-content:space-around;
+      padding:8px 6px; margin-bottom:calc(8px + env(safe-area-inset-bottom, 0px));
+      box-shadow:0 -4px 30px rgba(0,0,0,0.6);
+    }
+    .bottom-nav-item {
+      display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 10px;
+      border-radius:14px; transition:var(--transition-smooth); color:var(--text-muted); min-width:52px;
+    }
+    .bottom-nav-item.active { color:var(--neon-cyan); }
+    .bottom-nav-item.active::before {
+      content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:20px; height:3px;
+      background:var(--neon-cyan); border-radius:0 0 4px 4px; box-shadow:0 0 10px var(--neon-cyan);
+    }
+    .bottom-nav-item svg { width:22px; height:22px; fill:currentColor; }
+    .bottom-nav-item span { font-size:0.68rem; font-weight:500; }
+
+    /* Loading overlay */
+    .loading-overlay {
+      position:fixed; inset:0; z-index:9999; background:rgba(4,4,15,0.92); backdrop-filter:blur(20px);
+      display:flex; align-items:center; justify-content:center; flex-direction:column; opacity:0; pointer-events:none;
+      transition:opacity 0.4s;
+    }
+    .loading-overlay.visible { opacity:1; pointer-events:all; }
+    .loading-card { width:90%; max-width:380px; background:var(--bg-card); backdrop-filter:blur(30px); border:1px solid var(--glass-border-strong); border-radius:var(--radius-lg); padding:30px 24px; text-align:center; }
+    .loading-progress-bar { width:100%; height:4px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; margin-top:4px; }
+    .loading-progress-fill { height:100%; background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta)); width:0%; transition:width 0.3s; }
+
+    /* Notification */
+    .notif-bell { position:fixed; top:16px; right:16px; z-index:200; width:44px; height:44px; border-radius:50%; background:var(--bg-card); backdrop-filter:blur(20px); border:1px solid var(--glass-border-strong); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .notif-bell svg { width:20px; height:20px; fill:#fff; }
+    .notif-bell-dot { position:absolute; top:8px; right:8px; width:10px; height:10px; background:#ff2d78; border-radius:50%; box-shadow:0 0 8px rgba(255,45,120,0.7); }
+    .notif-modal-overlay { position:fixed; inset:0; z-index:300; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.35s; }
+    .notif-modal-overlay.visible { opacity:1; pointer-events:all; }
+    .notif-modal { width:90%; max-width:380px; background:var(--bg-card); backdrop-filter:blur(30px); border:1px solid var(--glass-border-strong); border-radius:var(--radius-lg); overflow:hidden; }
+  </style>
+</head>
+<body>
+  <div class="bg-orbs"><div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div></div>
+
+  <!-- Hidden iframe for background preloading -->
+  <iframe id="preloadIframe" style="display:none;width:1px;height:1px;position:absolute;visibility:hidden;" sandbox="allow-scripts allow-same-origin"></iframe>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-card">
+      <div id="loadingStages" style="list-style:none;text-align:left;margin-bottom:18px;"></div>
+      <div class="loading-progress-bar"><div class="loading-progress-fill" id="loadingProgressFill"></div></div>
+      <div id="loadingPercent" style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;text-align:right;">0%</div>
+    </div>
+  </div>
+
+  <!-- Notification Bell -->
+  <div class="notif-bell" id="notifBell"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div class="notif-bell-dot" id="notifBellDot"></div></div>
+
+  <!-- Notification Modal -->
+  <div class="notif-modal-overlay" id="notifModalOverlay">
+    <div class="notif-modal">
+      <div style="position:relative;"><img id="notifModalImg" src="" style="width:100%;height:170px;object-fit:cover;" alt=""><button id="notifModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;">✕</button></div>
+      <div style="padding:20px 18px;text-align:center;"><h3 id="notifModalTitle"></h3><p id="notifModalDesc" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;"></p><a id="notifModalBtn" class="btn btn-primary btn-sm" href="#" target="_blank">Learn More</a></div>
+    </div>
+  </div>
+
+  <main class="main-container">
+    <!-- PAGE: Home -->
+    <div class="page active" id="page-home">
+      <section class="hero-section">
+        <div class="hero-img-container"><img id="heroImage" src="" alt="RoleVerse"></div>
+        <h1 class="hero-title" id="heroTitle">RoleVerse AI</h1>
+        <p class="hero-subtitle">Premium AI Character Chat</p>
+        <p class="hero-description">Immerse yourself in lifelike conversations with AI characters. Create, customize, and connect like never before.</p>
+        <button class="btn btn-primary" id="btnStartChatting">Start Chatting</button>
+        <div class="legal-links" id="legalLinks"></div>
+      </section>
+    </div>
+
+    <!-- PAGE: Features -->
+    <div class="page" id="page-features">
+      <section class="section-spacing">
+        <h2 class="section-title">Why RoleVerse</h2>
+        <p class="section-subtitle">Next-level AI companionship features</p>
+        <div class="features-grid" id="featuresGrid"></div>
+      </section>
+    </div>
+
+    <!-- PAGE: Characters (Guide) -->
+    <div class="page" id="page-characters">
+      <section class="section-spacing">
+        <h2 class="section-title">Character Design Guide</h2>
+        <p class="section-subtitle">Tips & examples to create your perfect AI character</p>
+        <div id="characterGuide"></div>
+      </section>
+    </div>
+
+    <!-- PAGE: Gallery -->
+    <div class="page" id="page-gallery">
+      <section class="section-spacing">
+        <h2 class="section-title">AI Gallery</h2>
+        <p class="section-subtitle">Stunning visuals from our community</p>
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </section>
+    </div>
+
+    <!-- PAGE: Social -->
+    <div class="page" id="page-social">
+      <section class="section-spacing">
+        <h2 class="section-title">Connect With Us</h2>
+        <p class="section-subtitle">Follow on your favorite platforms</p>
+        <div class="social-grid" id="socialGrid"></div>
+      </section>
+    </div>
+
+    <!-- PAGE: Contact -->
+    <div class="page" id="page-contact">
+      <section class="section-spacing">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">We'd love to hear from you</p>
+        <form id="contactForm" style="display:flex;flex-direction:column;gap:12px;padding:20px 18px;" class="glass-card">
+          <input type="text" class="glass-input" id="contactName" placeholder="Your Name" required>
+          <input type="email" class="glass-input" id="contactEmail" placeholder="Your Email" required>
+          <textarea class="glass-input" id="contactMessage" placeholder="Your Message" required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" id="bottomNav">
+    <a class="bottom-nav-item active" data-page="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
+    <a class="bottom-nav-item" data-page="features"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Features</span></a>
+    <a class="bottom-nav-item" data-page="characters"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Guide</span></a>
+    <a class="bottom-nav-item" data-page="gallery"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg><span>Gallery</span></a>
+    <a class="bottom-nav-item" data-page="social"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Social</span></a>
+    <a class="bottom-nav-item" data-page="contact"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span>Contact</span></a>
+  </nav>
+
+  <script>
+    (function() {
+      // ==================== ADMIN CONFIGURATION ====================
+      const CONFIG = {
+        app_name: 'RoleVerse AI',
+        app_logo: 'https://picsum.photos/seed/roleverse-hero/800/600',
+        chat_url: 'https://example.com/chat',   // <-- replace with your actual chat URL
+        privacy_url: 'https://example.com/privacy',
+        terms_url: 'https://example.com/terms',
+        notification_enabled: true,
+        notification_title: 'Welcome to RoleVerse! 🚀',
+        notification_description: 'Experience next-gen AI character chat. Create, chat, and generate images.',
+        notification_image: 'https://picsum.photos/seed/notif-banner/600/300',
+        notification_button_text: 'Get Started',
+        notification_button_url: 'https://example.com/get-started',
+        social: [
+          { platform: 'Instagram', url: 'https://instagram.com/roleverseai', icon: 'instagram', icon_img: '' },
+          { platform: 'Facebook', url: 'https://facebook.com/roleverseai', icon: 'facebook', icon_img: '' },
+          { platform: 'Telegram', url: 'https://t.me/roleverseai', icon: 'telegram', icon_img: '' },
+          { platform: 'Discord', url: 'https://discord.gg/roleverse', icon: 'discord', icon_img: '' },
+          { platform: 'YouTube', url: 'https://youtube.com/@roleverseai', icon: 'youtube', icon_img: '' },
+          { platform: 'Twitter/X', url: 'https://twitter.com/roleverseai', icon: 'twitter', icon_img: '' },
+          { platform: 'Website', url: 'https://roleverse.ai', icon: 'website', icon_img: '' }
+        ],
+        features: [
+          { icon:'🧠', title:'AI Intelligence', description:'Advanced neural networks for lifelike conversations' },
+          { icon:'🎨', title:'Image Generation', description:'Create stunning visuals with AI tools' },
+          { icon:'🔒', title:'Secure & Private', description:'End-to-end encryption for your chats' },
+          { icon:'⚡', title:'Real-time Chat', description:'Instant responses with zero latency' },
+          { icon:'🎭', title:'Custom Characters', description:'Design unique AI personalities' },
+          { icon:'📱', title:'Multi-Platform', description:'Available on Web, Android & iOS' }
+        ],
+        characterExamples: [
+          { name: 'Luna Star', personality: 'Mystical, poetic, gentle', description: 'A moon goddess who speaks in riddles and weaves dreams into words.' },
+          { name: 'Rex Blaze', personality: 'Rebellious, witty, protective', description: 'A cyberpunk hacker with a heart of gold, always ready for a digital heist.' },
+          { name: 'Aria Wave', personality: 'Calm, creative, curious', description: 'An ocean-inspired dreamer who finds beauty in every ripple and wave.' }
+        ],
+        gallery: [
+          { image:'https://picsum.photos/seed/gal-1/400/400', title:'Neon Dreams' },
+          { image:'https://picsum.photos/seed/gal-2/400/400', title:'Digital Horizon' },
+          { image:'https://picsum.photos/seed/gal-3/400/400', title:'Cyber Realm' }
+        ]
+      };
+
+      // ==================== DOM ELEMENTS ====================
+      const $ = (s) => document.querySelector(s);
+      const loadingOverlay = $('#loadingOverlay');
+      const loadingProgressFill = $('#loadingProgressFill');
+      const loadingPercent = $('#loadingPercent');
+      const loadingStages = $('#loadingStages');
+      const preloadIframe = $('#preloadIframe');
+      const notifBell = $('#notifBell');
+      const notifBellDot = $('#notifBellDot');
+      const notifModalOverlay = $('#notifModalOverlay');
+      const notifModalImg = $('#notifModalImg');
+      const notifModalTitle = $('#notifModalTitle');
+      const notifModalDesc = $('#notifModalDesc');
+      const notifModalBtn = $('#notifModalBtn');
+      const notifModalClose = $('#notifModalClose');
+      const btnStartChatting = $('#btnStartChatting');
+      const featuresGrid = $('#featuresGrid');
+      const galleryGrid = $('#galleryGrid');
+      const socialGrid = $('#socialGrid');
+      const contactForm = $('#contactForm');
+      const heroImage = $('#heroImage');
+      const heroTitle = $('#heroTitle');
+      const legalLinks = $('#legalLinks');
+      const characterGuide = $('#characterGuide');
+
+      // ==================== PAGE NAVIGATION ====================
+      const pages = document.querySelectorAll('.page');
+      const navItems = document.querySelectorAll('.bottom-nav-item');
+
+      function navigateTo(pageId) {
+        pages.forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('page-' + pageId);
+        if (target) target.classList.add('active');
+        navItems.forEach(n => n.classList.remove('active'));
+        const activeNav = document.querySelector(`.bottom-nav-item[data-page="${pageId}"]`);
+        if (activeNav) activeNav.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        history.pushState(null, null, '#' + pageId);
+      }
+
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigateTo(item.dataset.page);
+        });
+      });
+
+      window.addEventListener('popstate', () => {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.getElementById('page-' + hash)) navigateTo(hash);
+        else navigateTo('home');
+      });
+
+      const initialHash = window.location.hash.replace('#', '');
+      if (initialHash && document.getElementById('page-' + initialHash)) navigateTo(initialHash);
+      else navigateTo('home');
+
+      // ==================== INIT UI ====================
+      function initUI() {
+        heroTitle.textContent = CONFIG.app_name;
+        document.title = CONFIG.app_name + ' - Premium AI Character Chat';
+        if (CONFIG.app_logo) heroImage.src = CONFIG.app_logo;
+        legalLinks.innerHTML = `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank">Terms of Service</a>.`;
+
+        featuresGrid.innerHTML = CONFIG.features.map(f => `
+          <div class="feature-card">
+            <span class="feature-icon">${f.icon}</span>
+            <h3 style="font-size:0.95rem; margin-bottom:4px;">${f.title}</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted);">${f.description}</p>
+          </div>
+        `).join('');
+
+        characterGuide.innerHTML = CONFIG.characterExamples.map((c, i) => `
+          <div class="guide-card">
+            <h4>Example ${i+1}</h4>
+            <div class="field"><strong>Name:</strong> ${c.name}</div>
+            <div class="field"><strong>Personality:</strong> ${c.personality}</div>
+            <div class="field"><strong>Description:</strong> ${c.description}</div>
+            <button class="copy-btn" data-copy="Name: ${c.name}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
+          </div>
+        `).join('') + `<button class="btn btn-secondary more-ideas-btn" id="moreIdeasBtn">✨ More Character Ideas</button>`;
+
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const text = btn.dataset.copy;
+            navigator.clipboard.writeText(text).then(() => {
+              btn.textContent = '✅ Copied!';
+              setTimeout(() => btn.textContent = '📋 Copy Blueprint', 1500);
+            }).catch(() => alert('Copy manually: ' + text));
+          });
+        });
+        document.getElementById('moreIdeasBtn')?.addEventListener('click', () => navigateTo('features'));
+
+        galleryGrid.innerHTML = CONFIG.gallery.map(g => `
+          <div class="gallery-item"><img src="${g.image}" alt="${g.title}" loading="lazy"></div>
+        `).join('');
+
+        const iconSVGs = {
+          instagram: '<svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm.2 2C5.4 4 4 5.4 4 8v8c0 2.6 1.4 4 4 4h8c2.6 0 4-1.4 4-4V8c0-2.6-1.4-4-4-4H8zm9 2.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg>',
+          facebook: '<svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z"/></svg>',
+          telegram: '<svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>',
+          discord: '<svg viewBox="0 0 24 24"><path d="M20.32 4.37a19.8 19.8 0 00-4.9-1.52.07.07 0 00-.08.04 13.7 13.7 0 00-1.2 2.45 18.3 18.3 0 00-5.48 0 13.7 13.7 0 00-1.2-2.45.07.07 0 00-.08-.04 19.8 19.8 0 00-4.9 1.52.05.05 0 00-.03.02C1.08 9.5.6 14.47 2.9 19.32a.08.08 0 00.05.04 19.9 19.9 0 006 3.03.07.07 0 00.08-.03 14.3 14.3 0 001.24-2.02.07.07 0 00-.04-.09 13.1 13.1 0 01-1.9-.9.07.07 0 01-.01-.12 9.8 9.8 0 00.38-.3.07.07 0 01.08-.01c4 1.83 8.34 1.83 12.28 0a.07.07 0 01.08.01c.13.1.25.2.38.3a.07.07 0 01-.01.12c-.6.36-1.24.66-1.9.9a.07.07 0 00-.04.09c.36.7.78 1.38 1.24 2.02a.07.07 0 00.08.03 19.8 19.8 0 006-3.03.08.08 0 00.05-.04c2.7-5.6 1.5-10.5-.76-14.93a.05.05 0 00-.03-.02zM8.7 15.9c-1.3 0-2.37-1.2-2.37-2.66 0-1.46 1.04-2.67 2.37-2.67 1.34 0 2.4 1.2 2.37 2.67 0 1.46-1.04 2.66-2.37 2.66zm6.6 0c-1.3 0-2.37-1.2-2.37-2.66 0-1.46 1.04-2.67 2.37-2.67 1.34 0 2.4 1.2 2.37 2.67 0 1.46-1.04 2.66-2.37 2.66z"/></svg>',
+          youtube: '<svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.04c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96 29 29 0 00.46-5.33 29 29 0 00-.46-5.33zM9.75 15.02V8.48L15.5 11.75l-5.75 3.27z"/></svg>',
+          twitter: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+          website: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>'
+        };
+        socialGrid.innerHTML = CONFIG.social.map(s => {
+          const iconContent = s.icon_img ? `<img src="${s.icon_img}" alt="${s.platform}">` : (iconSVGs[s.icon] || iconSVGs.website);
+          return `<a class="social-card" href="${s.url}" target="_blank" rel="noopener">${iconContent}<span>${s.platform}</span></a>`;
+        }).join('');
+
+        updateNotificationUI();
+      }
+
+      // ==================== NOTIFICATION (seen tracking) ====================
+      const NOTIF_KEY = 'rv_notif_v2';
+      function getNotifHash() { return JSON.stringify({t:CONFIG.notification_title,d:CONFIG.notification_description,i:CONFIG.notification_image,b:CONFIG.notification_button_text,l:CONFIG.notification_button_url,e:CONFIG.notification_enabled}); }
+      function updateNotificationUI() {
+        if (!CONFIG.notification_enabled) { notifBell.style.display='none'; return; }
+        notifBell.style.display='flex';
+        notifModalTitle.textContent = CONFIG.notification_title;
+        notifModalDesc.textContent = CONFIG.notification_description;
+        notifModalBtn.textContent = CONFIG.notification_button_text;
+        notifModalBtn.href = CONFIG.notification_button_url;
+        notifModalImg.src = CONFIG.notification_image || '';
+        const hash = getNotifHash();
+        const stored = JSON.parse(localStorage.getItem(NOTIF_KEY) || '{}');
+        if (stored.hash === hash && stored.seen) { notifBellDot.style.display='none'; }
+        else { notifBellDot.style.display='block'; if (!stored.hash || stored.hash !== hash || !stored.seen) setTimeout(showNotifModal, 1500); }
+      }
+      function showNotifModal() { notifModalOverlay.classList.add('visible'); }
+      function hideNotifModal() { notifModalOverlay.classList.remove('visible'); localStorage.setItem(NOTIF_KEY, JSON.stringify({hash:getNotifHash(), seen:true})); notifBellDot.style.display='none'; }
+      notifBell.addEventListener('click', showNotifModal);
+      notifModalClose.addEventListener('click', hideNotifModal);
+      notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
+
+      // ==================== BACKGROUND PRELOADING + LOADING ANIMATION ====================
+      const stages = ['Initializing AI Environment','Fetching Character Database','Preparing Secure Session','Optimizing Chat Experience','Launching AI Interface'];
+      loadingStages.innerHTML = stages.map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;font-size:0.85rem;color:var(--text-muted);"><span class="stage-dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);"></span>${s}</div>`).join('');
+
+      let loadingInterval;
+      let preloadStarted = false;
+
+      function preloadUrl(url) {
+        if (preloadStarted) return;
+        preloadStarted = true;
+        try {
+          preloadIframe.src = url;
+        } catch (e) {
+          // If iframe loading is blocked, the redirect will still work
+        }
+      }
+
+      function showLoading(url) {
+        if (!url) { alert('Chat URL not configured.'); return; }
+        preloadStarted = false;
+        // Start background preload immediately
+        preloadUrl(url);
+
+        loadingOverlay.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+        loadingProgressFill.style.width = '0%';
+        loadingPercent.textContent = '0%';
+        document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='rgba(255,255,255,0.2)');
+
+        let progress = 0;
+        const total = 5000; // 5 seconds
+        const step = 20;
+        const intervalTime = total / (100/step);
+
+        loadingInterval = setInterval(() => {
+          progress += step;
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(loadingInterval);
+            loadingProgressFill.style.width = '100%';
+            loadingPercent.textContent = '100%';
+            document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='var(--neon-cyan)');
+            // Redirect after a tiny delay so the user sees 100%
+            setTimeout(() => {
+              window.location.href = url;
+            }, 300);
+          } else {
+            loadingProgressFill.style.width = progress+'%';
+            loadingPercent.textContent = Math.round(progress)+'%';
+            const active = Math.floor(progress / 20);
+            document.querySelectorAll('.stage-dot').forEach((d,i)=>{
+              d.style.background = i < active ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.2)';
+            });
+          }
+        }, intervalTime);
+      }
+
+      btnStartChatting.addEventListener('click', () => showLoading(CONFIG.chat_url));
+
+      // ==================== CONTACT FORM ====================
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = $('#contactName').value.trim(), email = $('#contactEmail').value.trim(), msg = $('#contactMessage').value.trim();
+        if(!name||!email||!msg){alert('Please fill all fields.');return;}
+        window.location.href = `mailto:support@virtualdatinghub.com?subject=RoleVerse%20Support&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
+        contactForm.reset();
+      });
+
+      initUI();
+      window.RoleVerseConfig = CONFIG;
+    })();
+  </script>
+</body>
+</html>
