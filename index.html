@@ -100,12 +100,10 @@
     .btn-secondary { background: rgba(255,255,255,0.06); color:var(--text-primary); border:1px solid var(--glass-border-strong); backdrop-filter:blur(8px); }
     .btn-sm { padding:10px 18px; font-size:0.85rem; border-radius:10px; min-height:38px; }
 
-    /* Page system */
     .page { display:none; width:100%; }
     .page.active { display:block; animation: fadeSlideIn 0.4s ease; }
     @keyframes fadeSlideIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
 
-    /* Hero */
     .hero-section { text-align:center; padding:30px 8px 20px; }
     .hero-img-container {
       width:100%; max-width:400px; height:300px; margin:0 auto 18px; border-radius:var(--radius-lg);
@@ -132,7 +130,6 @@
     .section-subtitle { text-align:center; color:var(--text-muted); font-size:0.9rem; margin-bottom:24px; }
     .section-spacing { padding:36px 0 20px; }
 
-    /* Features */
     .features-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
     .feature-card {
       padding:20px 14px; text-align:center; border-radius:var(--radius-lg); background:var(--bg-card);
@@ -147,7 +144,6 @@
     .feature-card:hover { border-color:var(--glass-border-strong); transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
     .feature-icon { font-size:2rem; margin-bottom:8px; display:block; }
 
-    /* Character design guide */
     .guide-card {
       padding:20px 18px; border-radius:var(--radius-lg); background:var(--bg-card); backdrop-filter:blur(20px);
       border:1px solid var(--glass-border); margin-bottom:14px;
@@ -162,7 +158,6 @@
     .copy-btn:hover { background:rgba(255,255,255,0.1); color:#fff; }
     .more-ideas-btn { display:block; width:100%; margin-top:20px; }
 
-    /* Gallery dynamic */
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
     .gallery-item {
       border-radius:var(--radius-md); overflow:hidden; aspect-ratio:1; background:rgba(20,20,40,0.6);
@@ -175,7 +170,6 @@
       border:1px solid var(--glass-border); padding:8px 18px; border-radius:20px; cursor:pointer;
     }
 
-    /* Social cards */
     .social-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(80px,1fr)); gap:16px; }
     .social-card {
       display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 10px;
@@ -227,7 +221,6 @@
 </head>
 <body>
   <div class="bg-orbs"><div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div></div>
-  <iframe id="preloadIframe" style="display:none;width:1px;height:1px;position:absolute;visibility:hidden;" sandbox="allow-scripts allow-same-origin"></iframe>
 
   <!-- Loading Overlay -->
   <div class="loading-overlay" id="loadingOverlay">
@@ -241,7 +234,7 @@
   <!-- Notification Bell -->
   <div class="notif-bell" id="notifBell"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div class="notif-bell-dot" id="notifBellDot"></div></div>
 
-  <!-- Notification Modal (no link, just welcome message) -->
+  <!-- Notification Modal (welcome only) -->
   <div class="notif-modal-overlay" id="notifModalOverlay">
     <div class="notif-modal">
       <div style="position:relative;"><img id="notifModalImg" src="" style="width:100%;height:170px;object-fit:cover;" alt="Welcome"><button id="notifModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;">✕</button></div>
@@ -343,7 +336,7 @@
     </div>
   </main>
 
-  <!-- Bottom Navigation (7 items) -->
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav" id="bottomNav">
     <a class="bottom-nav-item active" data-page="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
     <a class="bottom-nav-item" data-page="features"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Features</span></a>
@@ -360,13 +353,13 @@
       const CONFIG = {
         app_name: 'RoleVerse AI',
         app_logo: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
-        chat_url: 'https://perchance.org/roleverse',   // Start Chatting redirect (same window)
+        chat_url: 'https://perchance.org/roleverse',   // Start Chatting (internal)
         privacy_url: 'https://roleverseai.blogspot.com/p/privacy-policy.html',
         terms_url: 'https://roleverseai.blogspot.com/p/terms-of-service.html',
         notification_enabled: true,
         notification_title: 'Welcome to RoleVerse AI! 🚀',
         notification_description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
-        notification_image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png', // welcome image
+        notification_image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
         social: [
           { platform: 'Telegram', url: 'https://t.me/roleverseai', icon: 'telegram' },
           { platform: 'YouTube', url: 'https://youtube.com/@roleverseai', icon: 'youtube' },
@@ -419,7 +412,6 @@
       const loadingProgressFill = $('#loadingProgressFill');
       const loadingPercent = $('#loadingPercent');
       const loadingStages = $('#loadingStages');
-      const preloadIframe = $('#preloadIframe');
       const notifBell = $('#notifBell');
       const notifBellDot = $('#notifBellDot');
       const notifModalOverlay = $('#notifModalOverlay');
@@ -530,7 +522,7 @@
         updateNotificationUI();
       }
 
-      // ==================== NOTIFICATION (no link, welcome only) ====================
+      // ==================== NOTIFICATION (no link) ====================
       const NOTIF_KEY = 'rv_notif_v3';
       function getNotifHash() { return JSON.stringify({t:CONFIG.notification_title,d:CONFIG.notification_description,i:CONFIG.notification_image,e:CONFIG.notification_enabled}); }
       function updateNotificationUI() {
@@ -550,50 +542,11 @@
       notifModalClose.addEventListener('click', hideNotifModal);
       notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
 
-      // ==================== LOADING & REDIRECT (start chatting stays in same window) ====================
-      const stages = ['Initializing AI','Fetching Database','Secure Session','Optimizing Chat','Launching Interface'];
-      loadingStages.innerHTML = stages.map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;font-size:0.85rem;color:var(--text-muted);"><span class="stage-dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);"></span>${s}</div>`).join('');
-
-      let loadingInterval;
-      let preloadStarted = false;
-      function preloadUrl(url) {
-        if (preloadStarted) return;
-        preloadStarted = true;
-        try { preloadIframe.src = url; } catch (e) {}
-      }
-      function showLoading(url) {
-        if (!url) { alert('Chat URL not configured.'); return; }
-        preloadStarted = false;
-        preloadUrl(url);
-        loadingOverlay.classList.add('visible');
-        document.body.style.overflow = 'hidden';
-        loadingProgressFill.style.width = '0%';
-        loadingPercent.textContent = '0%';
-        document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='rgba(255,255,255,0.2)');
-        let progress = 0;
-        const total = 5000;
-        const step = 20;
-        const intervalTime = total / (100/step);
-        loadingInterval = setInterval(() => {
-          progress += step;
-          if (progress >= 100) {
-            progress = 100;
-            clearInterval(loadingInterval);
-            loadingProgressFill.style.width = '100%';
-            loadingPercent.textContent = '100%';
-            document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='var(--neon-cyan)');
-            setTimeout(() => { window.location.href = url; }, 300);
-          } else {
-            loadingProgressFill.style.width = progress+'%';
-            loadingPercent.textContent = Math.round(progress)+'%';
-            const active = Math.floor(progress / 20);
-            document.querySelectorAll('.stage-dot').forEach((d,i)=>{
-              d.style.background = i < active ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.2)';
-            });
-          }
-        }, intervalTime);
-      }
-      btnStartChatting.addEventListener('click', () => showLoading(CONFIG.chat_url));
+      // ==================== START CHATTING (internal, with history) ====================
+      btnStartChatting.addEventListener('click', () => {
+        // Use window.open with _self to create WebView history entry
+        window.open(CONFIG.chat_url, '_self');
+      });
 
       // ==================== CONTACT FORM ====================
       contactForm.addEventListener('submit', (e) => {
@@ -609,4 +562,4 @@
     })();
   </script>
 </body>
-</html>
+  </html>
