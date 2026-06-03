@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0a0a14">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="RoleVerse AI - Premium AI Character Chat Platform. Create, chat, and generate images with AI characters.">
+  <meta name="description" content="RoleVerse AI - Premium AI Character Chat. Chat, create, and generate images with AI characters.">
   <meta name="keywords" content="AI chat, character chat, AI characters, roleplay, AI image generation">
   <meta property="og:title" content="RoleVerse AI - Premium AI Character Chat">
   <meta property="og:description" content="Create, chat, and generate images with AI characters. The ultimate AI companion experience.">
@@ -174,7 +174,7 @@
       box-shadow:0 -4px 30px rgba(0,0,0,0.6);
     }
     .bottom-nav-item {
-      display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 10px;
+      display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 8px;
       border-radius:14px; transition:var(--transition-smooth); color:var(--text-muted); min-width:52px;
     }
     .bottom-nav-item.active { color:var(--neon-cyan); }
@@ -239,6 +239,11 @@
         <h1 class="hero-title" id="heroTitle">RoleVerse AI</h1>
         <p class="hero-subtitle">Premium AI Character Chat</p>
         <p class="hero-description">Immerse yourself in lifelike conversations with AI characters. Create, customize, and connect like never before.</p>
+        <!-- New: How to use + Watch Tutorial -->
+        <div style="margin: 12px 0;">
+          <p style="font-weight:600; color:var(--neon-cyan); margin-bottom:10px;">How to use</p>
+          <a href="https://virtualdatinghub.com" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-bottom:12px;">Watch Tutorial</a>
+        </div>
         <button class="btn btn-primary" id="btnStartChatting">Start Chatting</button>
         <div class="legal-links" id="legalLinks"></div>
       </section>
@@ -271,6 +276,18 @@
       </section>
     </div>
 
+    <!-- PAGE: Sara Content Center (new) -->
+    <div class="page" id="page-sara">
+      <section class="section-spacing">
+        <h2 class="section-title">Sara Content Center</h2>
+        <p class="section-subtitle">Your exclusive hub for AI character Sara</p>
+        <div style="text-align:center; padding:20px 10px;">
+          <p style="color:var(--text-secondary); max-width:300px; margin:0 auto 20px;">Meet Sara, the most advanced AI companion. Chat, create, and explore a world of imagination.</p>
+          <a href="https://virtualdatinghub.com" target="_blank" class="btn btn-primary" style="display:inline-flex;">Explore Sara</a>
+        </div>
+      </section>
+    </div>
+
     <!-- PAGE: Social -->
     <div class="page" id="page-social">
       <section class="section-spacing">
@@ -286,21 +303,22 @@
         <h2 class="section-title">Get In Touch</h2>
         <p class="section-subtitle">We'd love to hear from you</p>
         <form id="contactForm" style="display:flex;flex-direction:column;gap:12px;padding:20px 18px;" class="glass-card">
-          <input type="text" class="glass-input" id="contactName" placeholder="Your Name" required>
-          <input type="email" class="glass-input" id="contactEmail" placeholder="Your Email" required>
-          <textarea class="glass-input" id="contactMessage" placeholder="Your Message" required></textarea>
+          <input type="text" class="glass-input" id="contactName" placeholder="Your Name" required maxlength="50">
+          <input type="email" class="glass-input" id="contactEmail" placeholder="Your Email" required maxlength="100">
+          <textarea class="glass-input" id="contactMessage" placeholder="Your Message" required maxlength="500"></textarea>
           <button type="submit" class="btn btn-primary">Send Message</button>
         </form>
       </section>
     </div>
   </main>
 
-  <!-- Bottom Navigation -->
+  <!-- Bottom Navigation (7 items) -->
   <nav class="bottom-nav" id="bottomNav">
     <a class="bottom-nav-item active" data-page="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
     <a class="bottom-nav-item" data-page="features"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Features</span></a>
     <a class="bottom-nav-item" data-page="characters"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Guide</span></a>
     <a class="bottom-nav-item" data-page="gallery"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg><span>Gallery</span></a>
+    <a class="bottom-nav-item" data-page="sara"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Sara</span></a>
     <a class="bottom-nav-item" data-page="social"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Social</span></a>
     <a class="bottom-nav-item" data-page="contact"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span>Contact</span></a>
   </nav>
@@ -311,7 +329,7 @@
       const CONFIG = {
         app_name: 'RoleVerse AI',
         app_logo: 'https://picsum.photos/seed/roleverse-hero/800/600',
-        chat_url: 'https://perchance.org/ultimatechat',   // <-- replace with your actual chat URL
+        chat_url: 'https://perchance.org/roleverse',                  // Start Chatting URL
         privacy_url: 'https://example.com/privacy',
         terms_url: 'https://example.com/terms',
         notification_enabled: true,
@@ -319,7 +337,7 @@
         notification_description: 'Experience next-gen AI character chat. Create, chat, and generate images.',
         notification_image: 'https://picsum.photos/seed/notif-banner/600/300',
         notification_button_text: 'Get Started',
-        notification_button_url: 'https://example.com/get-started',
+        notification_button_url: 'https://perchance.org/roleverse',   // Notification link
         social: [
           { platform: 'Instagram', url: 'https://instagram.com/roleverseai', icon: 'instagram', icon_img: '' },
           { platform: 'Facebook', url: 'https://facebook.com/roleverseai', icon: 'facebook', icon_img: '' },
@@ -330,12 +348,12 @@
           { platform: 'Website', url: 'https://roleverse.ai', icon: 'website', icon_img: '' }
         ],
         features: [
-          { icon:'🧠', title:'AI Intelligence', description:'Advanced neural networks for lifelike conversations' },
-          { icon:'🎨', title:'Image Generation', description:'Create stunning visuals with AI tools' },
-          { icon:'🔒', title:'Secure & Private', description:'End-to-end encryption for your chats' },
-          { icon:'⚡', title:'Real-time Chat', description:'Instant responses with zero latency' },
-          { icon:'🎭', title:'Custom Characters', description:'Design unique AI personalities' },
-          { icon:'📱', title:'Multi-Platform', description:'Available on Web, Android & iOS' }
+          { icon:'🧠', title:'AI Chat & Images', description:'Chat naturally and get AI images in the same flow, no separate prompt needed.' },
+          { icon:'🖼️', title:'Integrated Image Gen', description:'Images appear during conversation, not as a separate tool.' },
+          { icon:'🔒', title:'Device-Only Privacy', description:'All data stays in your device cache, never uploaded to any server.' },
+          { icon:'🛡️', title:'Fully Secured', description:'End-to-end encrypted, your privacy is absolute.' },
+          { icon:'⚡', title:'Real-time Response', description:'Instant AI replies with zero latency, for seamless chat.' },
+          { icon:'🌐', title:'For Everyone', description:'Open access, no hidden costs. Chat and create without limits.' }
         ],
         characterExamples: [
           { name: 'Luna Star', personality: 'Mystical, poetic, gentle', description: 'A moon goddess who speaks in riddles and weaves dreams into words.' },
@@ -429,7 +447,7 @@
             <div class="field"><strong>Description:</strong> ${c.description}</div>
             <button class="copy-btn" data-copy="Name: ${c.name}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
           </div>
-        `).join('') + `<button class="btn btn-secondary more-ideas-btn" id="moreIdeasBtn">✨ More Character Ideas</button>`;
+        `).join('') + `<a href="https://virtualdatinghub.com" target="_blank" class="btn btn-secondary more-ideas-btn">✨ More Character Ideas</a>`;
 
         document.querySelectorAll('.copy-btn').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -440,7 +458,6 @@
             }).catch(() => alert('Copy manually: ' + text));
           });
         });
-        document.getElementById('moreIdeasBtn')?.addEventListener('click', () => navigateTo('features'));
 
         galleryGrid.innerHTML = CONFIG.gallery.map(g => `
           <div class="gallery-item"><img src="${g.image}" alt="${g.title}" loading="lazy"></div>
@@ -497,15 +514,12 @@
         preloadStarted = true;
         try {
           preloadIframe.src = url;
-        } catch (e) {
-          // If iframe loading is blocked, the redirect will still work
-        }
+        } catch (e) {}
       }
 
       function showLoading(url) {
         if (!url) { alert('Chat URL not configured.'); return; }
         preloadStarted = false;
-        // Start background preload immediately
         preloadUrl(url);
 
         loadingOverlay.classList.add('visible');
@@ -515,7 +529,7 @@
         document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='rgba(255,255,255,0.2)');
 
         let progress = 0;
-        const total = 5000; // 5 seconds
+        const total = 5000;
         const step = 20;
         const intervalTime = total / (100/step);
 
@@ -527,7 +541,6 @@
             loadingProgressFill.style.width = '100%';
             loadingPercent.textContent = '100%';
             document.querySelectorAll('.stage-dot').forEach(d=>d.style.background='var(--neon-cyan)');
-            // Redirect after a tiny delay so the user sees 100%
             setTimeout(() => {
               window.location.href = url;
             }, 300);
