@@ -248,7 +248,6 @@
       <div style="padding:20px 18px;text-align:center;">
         <h3 id="notifModalTitle"></h3>
         <p id="notifModalDesc" style="font-size:0.85rem;color:var(--text-muted);margin-top:12px;"></p>
-        <!-- No link/button -->
       </div>
     </div>
   </div>
@@ -361,14 +360,13 @@
       const CONFIG = {
         app_name: 'RoleVerse AI',
         app_logo: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
-        chat_url: 'https://perchance.org/roleverse',   // Start Chatting redirect (internal)
+        chat_url: 'https://perchance.org/roleverse',   // Start Chatting redirect (same window)
         privacy_url: 'https://roleverseai.blogspot.com/p/privacy-policy.html',
         terms_url: 'https://roleverseai.blogspot.com/p/terms-of-service.html',
         notification_enabled: true,
         notification_title: 'Welcome to RoleVerse AI! 🚀',
         notification_description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
-        notification_image: 'https://picsum.photos/seed/welcome/600/300', // welcome image
-        // notification_button_url is removed (no link)
+        notification_image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png', // welcome image
         social: [
           { platform: 'Telegram', url: 'https://t.me/roleverseai', icon: 'telegram' },
           { platform: 'YouTube', url: 'https://youtube.com/@roleverseai', icon: 'youtube' },
@@ -473,7 +471,7 @@
         heroTitle.textContent = CONFIG.app_name;
         document.title = CONFIG.app_name + ' - Make Friends & Chat';
         heroImage.src = CONFIG.app_logo;
-        legalLinks.innerHTML = `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank">Terms of Service</a>.`;
+        legalLinks.innerHTML = `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank" rel="noopener">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank" rel="noopener">Terms of Service</a>.`;
 
         featuresGrid.innerHTML = CONFIG.features.map(f => `
           <div class="feature-card">
@@ -541,7 +539,6 @@
         notifModalTitle.textContent = CONFIG.notification_title;
         notifModalDesc.textContent = CONFIG.notification_description;
         notifModalImg.src = CONFIG.notification_image || '';
-        // no link button
         const hash = getNotifHash();
         const stored = JSON.parse(localStorage.getItem(NOTIF_KEY) || '{}');
         if (stored.hash === hash && stored.seen) { notifBellDot.style.display='none'; }
@@ -553,7 +550,7 @@
       notifModalClose.addEventListener('click', hideNotifModal);
       notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
 
-      // ==================== LOADING & REDIRECT (only start chatting redirects internally) ====================
+      // ==================== LOADING & REDIRECT (start chatting stays in same window) ====================
       const stages = ['Initializing AI','Fetching Database','Secure Session','Optimizing Chat','Launching Interface'];
       loadingStages.innerHTML = stages.map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;font-size:0.85rem;color:var(--text-muted);"><span class="stage-dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);"></span>${s}</div>`).join('');
 
