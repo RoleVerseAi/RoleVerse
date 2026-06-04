@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0812">
+    <meta name="description" content="RoleVerse AI - Download on Play Store. AI Character Chat & Friends.">
+    <title>RoleVerse AI - Download on Play Store</title>
+    <style>
+        :root {
+            --bg-dark: #0a0812;
+            --accent: #ff2a5f;
+            --text-main: #ffffff;
+            --text-muted: #9ba1a6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100vh;
+            font-family: 'Segoe UI', 'Roboto', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 20% 10%, rgba(85, 20, 100, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 42, 95, 0.2) 0%, transparent 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-main);
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(20, 15, 30, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255,42,95,0.1);
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 30%, #ff2a5f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .playstore-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
+            max-width: 260px;
+        }
+
+        .playstore-btn:hover {
+            background: #1a1a1a;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255,42,95,0.3);
+            transform: translateY(-2px);
+        }
+
+        .playstore-btn svg {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .playstore-btn .btn-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+
+        .playstore-btn .btn-small {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .playstore-btn .btn-big {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 24px 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            opacity: 0.6;
+            margin-top: 16px;
+        }
+
+        .footer-text a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Logo -->
+        <div class="logo">RoleVerse</div>
+        <p class="tagline">AI Character Chat & Friends</p>
+
+        <!-- Features Pills -->
+        <div class="features">
+            <span class="feature-tag">🧠 AI Chat</span>
+            <span class="feature-tag">🎨 Images</span>
+            <span class="feature-tag">🔒 Private</span>
+            <span class="feature-tag">⚡ Fast</span>
+        </div>
+
+        <!-- Download on Play Store Button -->
+        <a href="#" class="playstore-btn" target="_blank" rel="noopener">
+            <!-- Google Play Icon SVG -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 010 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.51 8.5l-2.302 2.302-8.344-8.344z"/>
+            </svg>
+            <span class="btn-text">
+                <span class="btn-small">Download on</span>
+                <span class="btn-big">Google Play</span>
+            </span>
+        </a>
+
+        <!-- Footer Links -->
+        <p class="footer-text">
+            By continuing, you agree to our <a href="#">Privacy Policy</a> & <a href="#">Terms</a>.
+        </p>
+    </div>
+
+</body>
+</html>
