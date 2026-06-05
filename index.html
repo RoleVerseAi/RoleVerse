@@ -279,7 +279,7 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.6s ease;
         }
         .robotic-popup-overlay.active {
             opacity: 1;
@@ -296,6 +296,11 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,229,255,0.1);
             position: relative;
             overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .robotic-popup-overlay.active .robotic-popup {
+            transform: scale(1);
         }
         .robotic-popup::before {
             content: '';
@@ -304,8 +309,8 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 229, 255, 0.1), rgba(212, 0, 255, 0.1), transparent);
-            animation: rotateGlow 3s linear infinite;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 229, 255, 0.08), rgba(212, 0, 255, 0.08), transparent);
+            animation: rotateGlow 4s linear infinite;
             z-index: 0;
         }
         @keyframes rotateGlow {
@@ -325,12 +330,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: robotPulse 1.5s ease-in-out infinite;
+            animation: robotPulse 2s ease-in-out infinite;
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
         }
         @keyframes robotPulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.06); }
         }
         .robot-icon svg {
             width: 36px;
@@ -365,7 +370,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
             font-size: 0.85rem;
             color: var(--text-muted);
-            transition: all 0.3s;
+            transition: all 0.5s ease;
         }
         .fetch-stages li .stage-icon {
             width: 28px;
@@ -377,7 +382,7 @@
             justify-content: center;
             flex-shrink: 0;
             font-size: 0.8rem;
-            transition: all 0.3s;
+            transition: all 0.5s ease;
         }
         .fetch-stages li.completed {
             color: var(--text-primary);
@@ -392,11 +397,11 @@
         .fetch-stages li.active .stage-icon {
             background: rgba(0, 229, 255, 0.2);
             border: 2px solid var(--neon-cyan);
-            animation: pulse 1s infinite;
+            animation: pulse 1.2s infinite;
         }
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
-            50% { box-shadow: 0 0 0 8px rgba(0, 229, 255, 0); }
+            50% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
         }
         .fetch-progress {
             width: 100%;
@@ -410,7 +415,7 @@
             height: 100%;
             background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
             width: 0%;
-            transition: width 0.4s ease;
+            transition: width 0.6s ease;
             border-radius: 3px;
         }
     </style>
@@ -758,7 +763,7 @@
             notifModalClose.addEventListener('click', hideNotifModal);
             notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
 
-            // ---- ROBOTIC LOADING ANIMATION ---- //
+            // ---- ROBOTIC LOADING ANIMATION (link opens AFTER 5 sec popup) ---- //
             function showRoboticLoading(callback) {
                 roboticPopupOverlay.classList.add('active');
                 const stageItems = fetchStages.querySelectorAll('li');
@@ -769,10 +774,10 @@
 
                 let currentStage = 0;
                 const totalStages = stageItems.length;
-                const stageDuration = 800; // ms per stage
+                const totalDuration = 5000; // 5 seconds total
+                const stageDuration = totalDuration / totalStages; // 1000ms per stage
 
                 function advanceStage() {
-                    // Mark current as active
                     if (currentStage < totalStages) {
                         stageItems[currentStage].classList.add('active');
                     }
@@ -788,11 +793,11 @@
                             if (currentStage < totalStages) {
                                 advanceStage();
                             } else {
-                                // All done
+                                // All 5 stages done – now close popup AND open link
                                 setTimeout(() => {
                                     roboticPopupOverlay.classList.remove('active');
-                                    if (callback) callback();
-                                }, 300);
+                                    if (callback) callback(); // opens the link
+                                }, 200);
                             }
                         }
                     }, stageDuration);
@@ -804,6 +809,7 @@
             // Override Start Chatting button
             btnStartChatting.addEventListener('click', () => {
                 showRoboticLoading(() => {
+                    // Opens the link AFTER the popup finishes
                     window.open(CONFIG.chat_url, '_self');
                 });
             });
