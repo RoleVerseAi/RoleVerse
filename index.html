@@ -72,52 +72,6 @@
             -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
         }
 
-
-.offline-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 5000;
-    background: rgba(6, 6, 15, 0.95);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.35s;
-}
-.offline-overlay.visible {
-    opacity: 1;
-    pointer-events: all;
-}
-.offline-card {
-    width: 90%;
-    max-width: 350px;
-    background: var(--bg-card);
-    backdrop-filter: blur(30px);
-    border: 1px solid var(--glass-border-strong);
-    border-radius: var(--radius-lg);
-    padding: 30px 24px;
-    text-align: center;
-}
-.offline-card svg {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 16px;
-    color: var(--neon-magenta);
-}
-.offline-card h3 {
-    margin-bottom: 8px;
-    color: #ff5e7e;
-}
-.offline-card p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-        
-        /* HEADER FRAME – 60px, animated gradient with purple, sea green, dark gray */
         .header-frame {
             position: fixed;
             top: 0;
@@ -130,7 +84,6 @@
             background-size: 300% 100%;
             animation: slideFrame 4s linear infinite;
         }
-        /* FOOTER FRAME – same style */
         .footer-frame {
             position: fixed;
             bottom: 0;
@@ -313,6 +266,158 @@
         .notif-modal-overlay { position:fixed; inset:0; z-index:300; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.35s; }
         .notif-modal-overlay.visible { opacity:1; pointer-events:all; }
         .notif-modal { width:90%; max-width:380px; background:var(--bg-card); backdrop-filter:blur(30px); border:1px solid var(--glass-border-strong); border-radius:var(--radius-lg); overflow:hidden; }
+
+        /* ---- NEW: ROBOTIC LOADING POPUP STYLES ---- */
+        .robotic-popup-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(6, 6, 15, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+        .robotic-popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .robotic-popup {
+            background: rgba(18, 18, 35, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 30px 24px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,229,255,0.1);
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .robotic-popup-overlay.active .robotic-popup {
+            transform: scale(1);
+        }
+        .robotic-popup::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 229, 255, 0.08), rgba(212, 0, 255, 0.08), transparent);
+            animation: rotateGlow 4s linear infinite;
+            z-index: 0;
+        }
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .robotic-popup > * {
+            position: relative;
+            z-index: 1;
+        }
+        .robot-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: robotPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+        }
+        @keyframes robotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        .robot-icon svg {
+            width: 36px;
+            height: 36px;
+            fill: #fff;
+        }
+        .fetch-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #fff, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .fetch-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .fetch-stages {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .fetch-stages li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.5s ease;
+        }
+        .fetch-stages li .stage-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            transition: all 0.5s ease;
+        }
+        .fetch-stages li.completed {
+            color: var(--text-primary);
+        }
+        .fetch-stages li.completed .stage-icon {
+            background: linear-gradient(135deg, #00c4e0, #00e5ff);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        .fetch-stages li.active {
+            color: var(--neon-cyan);
+        }
+        .fetch-stages li.active .stage-icon {
+            background: rgba(0, 229, 255, 0.2);
+            border: 2px solid var(--neon-cyan);
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
+        }
+        .fetch-progress {
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .fetch-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+            width: 0%;
+            transition: width 0.6s ease;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
@@ -320,6 +425,27 @@
     <div class="footer-frame"></div>
 
     <div class="bg-orbs"><div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div></div>
+
+    <!-- NEW: ROBOTIC LOADING POPUP -->
+    <div class="robotic-popup-overlay" id="roboticPopupOverlay">
+        <div class="robotic-popup">
+            <div class="robot-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2zM7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13zm9 0A2.5 2.5 0 0 0 14 15.5a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5z"/></svg>
+            </div>
+            <div class="fetch-title">Initializing AI Engine</div>
+            <div class="fetch-subtitle">Please wait while we set up your experience</div>
+            <ul class="fetch-stages" id="fetchStages">
+                <li data-stage="0"><span class="stage-icon">⚙️</span><span>Waking up AI core</span></li>
+                <li data-stage="1"><span class="stage-icon">🔐</span><span>Establishing secure session</span></li>
+                <li data-stage="2"><span class="stage-icon">📡</span><span>Fetching character database</span></li>
+                <li data-stage="3"><span class="stage-icon">🧠</span><span>Loading neural patterns</span></li>
+                <li data-stage="4"><span class="stage-icon">✨</span><span>Optimizing chat experience</span></li>
+            </ul>
+            <div class="fetch-progress">
+                <div class="fetch-progress-fill" id="fetchProgressFill"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
@@ -344,21 +470,6 @@
         </div>
     </div>
 
-
-
-<!-- Offline Overlay -->
-<div class="offline-overlay" id="offlineOverlay">
-    <div class="offline-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.34 9M1.66 9a16 16 0 016.67-2.78M12 2a21.7 21.7 0 015 0.55"/></svg>
-        <h3>No Internet Connection</h3>
-        <p>Please check your connection and try again. Some features may not work offline.</p>
-    </div>
-</div>
-
-
-
-
-    
     <main class="main-container">
         <!-- PAGE: Home -->
         <div class="page active" id="page-home">
@@ -540,6 +651,10 @@
             const heroTitle = $('#heroTitle');
             const legalLinks = $('#legalLinks');
             const characterGuide = $('#characterGuide');
+            // Robotic popup elements
+            const roboticPopupOverlay = $('#roboticPopupOverlay');
+            const fetchStages = $('#fetchStages');
+            const fetchProgressFill = $('#fetchProgressFill');
 
             const pages = document.querySelectorAll('.page');
             const navItems = document.querySelectorAll('.bottom-nav-item');
@@ -648,8 +763,55 @@
             notifModalClose.addEventListener('click', hideNotifModal);
             notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
 
+            // ---- ROBOTIC LOADING ANIMATION (link opens AFTER 5 sec popup) ---- //
+            function showRoboticLoading(callback) {
+                roboticPopupOverlay.classList.add('active');
+                const stageItems = fetchStages.querySelectorAll('li');
+                fetchProgressFill.style.width = '0%';
+                stageItems.forEach(li => {
+                    li.classList.remove('completed', 'active');
+                });
+
+                let currentStage = 0;
+                const totalStages = stageItems.length;
+                const totalDuration = 5000; // 5 seconds total
+                const stageDuration = totalDuration / totalStages; // 1000ms per stage
+
+                function advanceStage() {
+                    if (currentStage < totalStages) {
+                        stageItems[currentStage].classList.add('active');
+                    }
+
+                    const timer = setTimeout(() => {
+                        if (currentStage < totalStages) {
+                            stageItems[currentStage].classList.remove('active');
+                            stageItems[currentStage].classList.add('completed');
+                            currentStage++;
+                            const progress = (currentStage / totalStages) * 100;
+                            fetchProgressFill.style.width = progress + '%';
+
+                            if (currentStage < totalStages) {
+                                advanceStage();
+                            } else {
+                                // All 5 stages done – now close popup AND open link
+                                setTimeout(() => {
+                                    roboticPopupOverlay.classList.remove('active');
+                                    if (callback) callback(); // opens the link
+                                }, 200);
+                            }
+                        }
+                    }, stageDuration);
+                }
+
+                advanceStage();
+            }
+
+            // Override Start Chatting button
             btnStartChatting.addEventListener('click', () => {
-                window.open(CONFIG.chat_url, '_self');
+                showRoboticLoading(() => {
+                    // Opens the link AFTER the popup finishes
+                    window.open(CONFIG.chat_url, '_self');
+                });
             });
 
             contactForm.addEventListener('submit', (e) => {
@@ -663,43 +825,6 @@
             initUI();
             window.RoleVerseConfig = CONFIG;
         })();
-    </script>
-
-    <script>
-
-
-        const offlineOverlay = document.getElementById('offlineOverlay');
-const startChatBtn = document.getElementById('btnStartChatting'); // Already captured
-
-function updateOnlineStatus() {
-    // Use fetch to confirm actual internet connectivity
-    fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' })
-        .then(() => {
-            // Online
-            offlineOverlay.classList.remove('visible');
-            if (startChatBtn) startChatBtn.disabled = false;
-        })
-        .catch(() => {
-            // Offline or fetch error
-            offlineOverlay.classList.add('visible');
-            if (startChatBtn) startChatBtn.disabled = true;
-        });
-}
-
-// Listen to browser online/offline events for fast response
-window.addEventListener('online', () => {
-    updateOnlineStatus();
-});
-window.addEventListener('offline', () => {
-    offlineOverlay.classList.add('visible');
-    if (startChatBtn) startChatBtn.disabled = true;
-});
-
-// Initial check
-updateOnlineStatus();
-
-// Periodic check every 30 seconds
-setInterval(updateOnlineStatus, 30000);
     </script>
 </body>
 </html>
