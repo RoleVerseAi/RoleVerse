@@ -72,6 +72,51 @@
             -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
         }
 
+
+.offline-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: rgba(6, 6, 15, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s;
+}
+.offline-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+.offline-card {
+    width: 90%;
+    max-width: 350px;
+    background: var(--bg-card);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border-strong);
+    border-radius: var(--radius-lg);
+    padding: 30px 24px;
+    text-align: center;
+}
+.offline-card svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    color: var(--neon-magenta);
+}
+.offline-card h3 {
+    margin-bottom: 8px;
+    color: #ff5e7e;
+}
+.offline-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+        
         /* HEADER FRAME – 60px, animated gradient with purple, sea green, dark gray */
         .header-frame {
             position: fixed;
@@ -299,6 +344,21 @@
         </div>
     </div>
 
+
+
+<!-- Offline Overlay -->
+<div class="offline-overlay" id="offlineOverlay">
+    <div class="offline-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.34 9M1.66 9a16 16 0 016.67-2.78M12 2a21.7 21.7 0 015 0.55"/></svg>
+        <h3>No Internet Connection</h3>
+        <p>Please check your connection and try again. Some features may not work offline.</p>
+    </div>
+</div>
+
+
+
+
+    
     <main class="main-container">
         <!-- PAGE: Home -->
         <div class="page active" id="page-home">
@@ -603,6 +663,43 @@
             initUI();
             window.RoleVerseConfig = CONFIG;
         })();
+    </script>
+
+    <script>
+
+
+        const offlineOverlay = document.getElementById('offlineOverlay');
+const startChatBtn = document.getElementById('btnStartChatting'); // Already captured
+
+function updateOnlineStatus() {
+    // Use fetch to confirm actual internet connectivity
+    fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' })
+        .then(() => {
+            // Online
+            offlineOverlay.classList.remove('visible');
+            if (startChatBtn) startChatBtn.disabled = false;
+        })
+        .catch(() => {
+            // Offline or fetch error
+            offlineOverlay.classList.add('visible');
+            if (startChatBtn) startChatBtn.disabled = true;
+        });
+}
+
+// Listen to browser online/offline events for fast response
+window.addEventListener('online', () => {
+    updateOnlineStatus();
+});
+window.addEventListener('offline', () => {
+    offlineOverlay.classList.add('visible');
+    if (startChatBtn) startChatBtn.disabled = true;
+});
+
+// Initial check
+updateOnlineStatus();
+
+// Periodic check every 30 seconds
+setInterval(updateOnlineStatus, 30000);
     </script>
 </body>
 </html>
