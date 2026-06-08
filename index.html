@@ -26,12 +26,12 @@
             --text-primary: #f0f0f5;
             --text-secondary: #b0b0c0;
             --text-muted: #707085;
-            --radius-lg: 22px;
-            --radius-md: 16px;
-            --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            --safe-bottom: env(safe-area-inset-bottom, 16px);
-            --nav-height: 68px;
-            --frame-size: 60px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --safe-bottom: env(safe-area-inset-bottom, 12px);
+            --nav-height: 64px;
+            --frame-size: 48px;
         }
         * {
             box-sizing: border-box;
@@ -43,38 +43,34 @@
             -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
             font-size: 16px;
+            background: var(--bg-deep);
         }
         body {
             font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', -apple-system, system-ui, sans-serif;
-            background: var(--bg-deep);
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.5;
             min-height: 100vh;
             overflow-x: hidden;
             padding-top: var(--frame-size);
-            padding-bottom: calc(var(--frame-size) + var(--nav-height) + var(--safe-bottom) + 20px);
-            background-image:
-                radial-gradient(ellipse at 20% 10%, rgba(0,229,255,0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 30%, rgba(212,0,255,0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 70%, rgba(123,63,255,0.03) 0%, transparent 60%);
-            background-attachment: fixed;
+            padding-bottom: calc(var(--frame-size) + var(--nav-height) + var(--safe-bottom) + 12px);
+            background: transparent;
+            position: relative;
         }
+
+        /* Simplified background */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at 20% 20%, rgba(0,229,255,0.06) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 70%, rgba(212,0,255,0.06) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(123,63,255,0.05) 0%, transparent 50%);
             pointer-events: none;
-            z-index: 0;
-            background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-            background-size: 32px 32px;
-            mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
         }
 
-        .header-frame {
+        .header-frame, .footer-frame {
             position: fixed;
-            top: 0;
             left: 0;
             width: 100%;
             height: var(--frame-size);
@@ -82,341 +78,434 @@
             pointer-events: none;
             background: linear-gradient(90deg, #7b3fff, #2e8b57, #2f2f2f, #7b3fff);
             background-size: 300% 100%;
-            animation: slideFrame 4s linear infinite;
         }
-        .footer-frame {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: var(--frame-size);
-            z-index: 50;
-            pointer-events: none;
-            background: linear-gradient(90deg, #7b3fff, #2e8b57, #2f2f2f, #7b3fff);
-            background-size: 300% 100%;
-            animation: slideFrame 4s linear infinite;
-        }
-        @keyframes slideFrame {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 300% 50%; }
-        }
-
-        .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-        .bg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; animation: floatOrb 15s ease-in-out infinite; }
-        .bg-orb:nth-child(1) { width:300px; height:300px; background:var(--neon-cyan); top:-80px; left:-60px; }
-        .bg-orb:nth-child(2) { width:250px; height:250px; background:var(--neon-magenta); top:40%; right:-70px; animation-delay:-5s; animation-duration:17s; }
-        .bg-orb:nth-child(3) { width:200px; height:200px; background:var(--neon-purple); bottom:10%; left:20%; animation-delay:-9s; animation-duration:19s; }
-        @keyframes floatOrb { 0%,100%{transform:translate(0,0) scale(1);} 25%{transform:translate(40px,-50px) scale(1.15);} 50%{transform:translate(-20px,-30px) scale(0.9);} 75%{transform:translate(-35px,40px) scale(1.1);} }
+        .header-frame { top: 0; }
+        .footer-frame { bottom: 0; }
+        /* Remove animation for performance */
+        /* animation: slideFrame 4s linear infinite; removed */
 
         .main-container {
             position: relative;
             z-index: 1;
+            width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            padding: 0 16px;
+            padding: 0 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            min-height: calc(100vh - var(--frame-size)*2);
         }
+
         .glass-card {
-            background: var(--bg-card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border:1px solid var(--glass-border); border-radius:var(--radius-lg); box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-            transition:var(--transition-smooth);
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+            transition: var(--transition-smooth);
         }
         .glass-input {
-            background: rgba(20,20,40,0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border:1px solid var(--glass-border); border-radius:var(--radius-md); color:var(--text-primary);
-            padding:14px 16px; font-size:1rem; width:100%; outline:none; font-family:inherit; transition:0.2s;
+            background: rgba(20,20,40,0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+            font-family: inherit;
+            transition: 0.2s;
         }
-        .glass-input:focus { border-color:var(--neon-cyan); box-shadow: 0 0 0 3px var(--neon-cyan-dim); }
-        .glass-input::placeholder { color:var(--text-muted); }
-        textarea.glass-input { resize:vertical; min-height:120px; }
+        .glass-input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 0 2px var(--neon-cyan-dim); }
+        .glass-input::placeholder { color: var(--text-muted); }
+        textarea.glass-input { resize: vertical; min-height: 100px; }
 
         .btn {
-            display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 28px;
-            border-radius:var(--radius-md); font-weight:600; font-size:0.95rem; cursor:pointer; border:none;
-            transition:var(--transition-smooth); text-decoration:none; letter-spacing:0.3px; min-height:48px;
-            -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            letter-spacing: 0.2px;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            white-space: nowrap;
         }
-        .btn:active { transform:scale(0.96); }
-        .btn-primary { background: linear-gradient(135deg, #00c4e0, #00e5ff); color:#000; box-shadow:0 0 20px rgba(0,229,255,0.3); }
-        .btn-secondary { background: rgba(255,255,255,0.06); color:var(--text-primary); border:1px solid var(--glass-border-strong); backdrop-filter:blur(8px); }
-        .btn-sm { padding:10px 18px; font-size:0.85rem; border-radius:10px; min-height:38px; }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary { background: linear-gradient(135deg, #00c4e0, #00e5ff); color: #000; box-shadow: 0 0 15px rgba(0,229,255,0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.06); color: var(--text-primary); border: 1px solid var(--glass-border-strong); backdrop-filter: blur(6px); }
+        .btn-sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 10px; min-height: 34px; }
 
-        .page { display:none; width:100%; }
-        .page.active { display:block; animation: fadeSlideIn 0.4s ease; }
-        @keyframes fadeSlideIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
+        .page { display: none; width: 100%; }
+        .page.active { display: block; animation: fadeSlideIn 0.35s ease; }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero-section { text-align:center; padding:30px 8px 20px; }
+        .hero-section { text-align: center; padding: 24px 6px 16px; }
         .hero-img-container {
-            width:100%; max-width:400px; height:300px; margin:0 auto 18px; border-radius:var(--radius-lg);
-            overflow:hidden; background:rgba(20,20,40,0.6); border:2px solid rgba(255,255,255,0.15);
-            box-shadow: 0 0 35px rgba(0,229,255,0.2), 0 0 70px rgba(212,0,255,0.1);
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            aspect-ratio: 1/1;
+            margin: 0 auto 16px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: rgba(20,20,40,0.6);
+            border: 2px solid rgba(255,255,255,0.12);
+            box-shadow: 0 0 25px rgba(0,229,255,0.15), 0 0 50px rgba(212,0,255,0.08);
         }
-        .hero-img-container img { width:100%; height:100%; object-fit:cover; display:block; }
+        .hero-img-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .hero-title {
-            font-size:2rem; font-weight:800; letter-spacing:-0.5px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
             background: linear-gradient(135deg, #fff 30%, #00e5ff 60%, #d400ff 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color:transparent;
-            margin-bottom:4px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
         }
-        .hero-subtitle { font-size:0.95rem; color:var(--text-secondary); margin-bottom:8px; letter-spacing:1.5px; text-transform:uppercase; }
-        .hero-description { font-size:0.9rem; color:var(--text-muted); max-width:380px; margin:0 auto 20px; }
-        .legal-links { margin-top:16px; font-size:0.75rem; color:var(--text-muted); }
-        .legal-links a { color:var(--neon-cyan); text-decoration:none; margin:0 4px; }
+        .hero-subtitle { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; letter-spacing: 1.2px; text-transform: uppercase; }
+        .hero-description { font-size: 0.85rem; color: var(--text-muted); max-width: 340px; margin: 0 auto 16px; }
+        .legal-links { margin-top: 14px; font-size: 0.7rem; color: var(--text-muted); }
+        .legal-links a { color: var(--neon-cyan); text-decoration: none; margin: 0 3px; }
 
         .section-title {
-            font-size:1.5rem; font-weight:700; text-align:center; margin-bottom:6px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4px;
             background: linear-gradient(135deg, #fff, #c0e8ff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color:transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .section-subtitle { text-align:center; color:var(--text-muted); font-size:0.9rem; margin-bottom:24px; }
-        .section-spacing { padding:36px 0 20px; }
+        .section-subtitle { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
+        .section-spacing { padding: 28px 0 16px; }
 
-        .features-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+        .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .feature-card {
-            padding:20px 14px; text-align:center; border-radius:var(--radius-lg); background:var(--bg-card);
-            backdrop-filter:blur(20px); border:1px solid var(--glass-border); transition:var(--transition-smooth);
-            position:relative; overflow:hidden;
+            padding: 18px 12px;
+            text-align: center;
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
         }
-        .feature-card::before {
-            content:''; position:absolute; top:0; left:0; right:0; height:3px;
-            background:linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta)); opacity:0; transition:0.3s;
-        }
-        .feature-card:hover::before { opacity:1; }
-        .feature-card:hover { border-color:var(--glass-border-strong); transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
-        .feature-icon { font-size:2rem; margin-bottom:8px; display:block; }
+        .feature-card:hover { border-color: var(--glass-border-strong); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
+        .feature-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
 
+        /* Character Guide */
+        .character-category { margin-bottom: 24px; }
+        .category-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
         .guide-card {
-            padding:20px 18px; border-radius:var(--radius-lg); background:var(--bg-card); backdrop-filter:blur(20px);
-            border:1px solid var(--glass-border); margin-bottom:14px;
+            padding: 16px 14px;
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
         }
-        .guide-card h4 { font-size:1rem; color:var(--neon-cyan); margin-bottom:8px; }
-        .guide-card .field { margin-bottom:8px; font-size:0.9rem; }
-        .guide-card .field strong { color:var(--text-secondary); display:inline-block; width:80px; }
+        .guide-card .char-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: rgba(255,255,255,0.05);
+            flex-shrink: 0;
+        }
+        .guide-card .info { flex: 1; }
+        .guide-card .field { font-size: 0.85rem; margin-bottom: 4px; }
+        .guide-card .field strong { color: var(--text-secondary); display: inline-block; width: 85px; }
         .copy-btn {
-            background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); color:var(--text-secondary);
-            padding:6px 12px; border-radius:8px; font-size:0.75rem; cursor:pointer; transition:0.2s;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 4px;
         }
-        .copy-btn:hover { background:rgba(255,255,255,0.1); color:#fff; }
-        .more-ideas-btn { display:block; width:100%; margin-top:20px; }
+        .copy-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
-        .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
-        .gallery-item {
-            border-radius:var(--radius-md); overflow:hidden; aspect-ratio:1; background:rgba(20,20,40,0.6);
-            border:1px solid var(--glass-border); position:relative;
-        }
-        .gallery-item img { width:100%; height:100%; object-fit:cover; transition:opacity 0.5s ease; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+        .gallery-item { border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 1; background: rgba(20,20,40,0.6); border: 1px solid var(--glass-border); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
         .shuffle-btn {
-            margin-top:16px; display:inline-flex; align-items:center; justify-content:center;
-            gap:6px; font-size:0.85rem; color:var(--text-secondary); background:var(--bg-card);
-            border:1px solid var(--glass-border); padding:8px 18px; border-radius:20px; cursor:pointer;
+            margin-top: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
         }
 
-        .social-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(80px,1fr)); gap:16px; }
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 12px; }
         .social-card {
-            display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 10px;
-            border-radius:var(--radius-lg); background:var(--bg-card); backdrop-filter:blur(20px);
-            border:1px solid var(--glass-border); transition:var(--transition-smooth); text-decoration:none; color:inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 8px;
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            color: inherit;
         }
-        .social-card:hover { border-color:var(--glass-border-strong); transform:translateY(-3px); }
-        .social-card svg { width:36px; height:36px; margin-bottom:6px; }
-        .social-card span { font-size:0.75rem; font-weight:500; }
+        .social-card:hover { border-color: var(--glass-border-strong); transform: translateY(-3px); }
+        .social-card svg { width: 32px; height: 32px; margin-bottom: 4px; }
+        .social-card span { font-size: 0.7rem; font-weight: 500; }
 
+        /* Bottom Nav */
         .bottom-nav {
-            position:fixed; bottom:var(--frame-size); left:50%; transform:translateX(-50%); z-index:100;
-            width:calc(100% - 20px); max-width:460px; background:rgba(12,12,26,0.75); backdrop-filter:blur(28px);
-            border:1px solid var(--glass-border-strong); border-radius:20px; display:flex; justify-content:space-around;
-            padding:8px 6px; margin-bottom:calc(8px + env(safe-area-inset-bottom, 0px));
-            box-shadow:0 -4px 30px rgba(0,0,0,0.6);
+            position: fixed;
+            bottom: calc(var(--frame-size) + 4px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            width: calc(100% - 12px);
+            max-width: 480px;
+            background: rgba(10,10,22,0.8);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-around;
+            padding: 6px 4px;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.6);
+            margin-bottom: var(--safe-bottom);
         }
         .bottom-nav-item {
-            display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 8px;
-            border-radius:14px; transition:var(--transition-smooth); color:var(--text-muted); min-width:52px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 12px;
+            transition: var(--transition-smooth);
+            color: var(--text-muted);
+            min-width: 44px;
+            flex-shrink: 0;
+            position: relative;
         }
-        .bottom-nav-item.active { color:var(--neon-cyan); }
-        .bottom-nav-item.active::before {
-            content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:20px; height:3px;
-            background:var(--neon-cyan); border-radius:0 0 4px 4px; box-shadow:0 0 10px var(--neon-cyan);
+        .bottom-nav-item.active { color: var(--neon-cyan); }
+        .bottom-nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 2px;
+            background: var(--neon-cyan);
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 0 8px var(--neon-cyan);
         }
-        .bottom-nav-item svg { width:22px; height:22px; fill:currentColor; }
-        .bottom-nav-item span { font-size:0.68rem; font-weight:500; }
+        .bottom-nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+        .bottom-nav-item span { font-size: 0.65rem; font-weight: 500; }
 
-        /* Loading overlay */
-        .loading-overlay {
-            position:fixed; inset:0; z-index:9999; background:rgba(4,4,15,0.92); backdrop-filter:blur(20px);
-            display:flex; align-items:center; justify-content:center; flex-direction:column; opacity:0; pointer-events:none;
-            transition:opacity 0.4s;
-        }
-        .loading-overlay.visible { opacity:1; pointer-events:all; }
-        .loading-card { width:90%; max-width:380px; background:var(--bg-card); backdrop-filter:blur(30px); border:1px solid var(--glass-border-strong); border-radius:var(--radius-lg); padding:30px 24px; text-align:center; }
-        .loading-progress-bar { width:100%; height:4px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; margin-top:4px; }
-        .loading-progress-fill { height:100%; background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta)); width:0%; transition:width 0.3s; }
-
-        /* Notification */
-        .notif-bell {
-            position:fixed; top:calc(var(--frame-size) + 16px); right:16px; z-index:200; width:44px; height:44px;
-            border-radius:50%; background:var(--bg-card); backdrop-filter:blur(20px); border:1px solid var(--glass-border-strong);
-            cursor:pointer; display:flex; align-items:center; justify-content:center;
-        }
-        .notif-bell svg { width:20px; height:20px; fill:#fff; }
-        .notif-bell-dot { position:absolute; top:8px; right:8px; width:10px; height:10px; background:#ff2d78; border-radius:50%; box-shadow:0 0 8px rgba(255,45,120,0.7); }
-        .notif-modal-overlay { position:fixed; inset:0; z-index:300; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.35s; }
-        .notif-modal-overlay.visible { opacity:1; pointer-events:all; }
-        .notif-modal { width:90%; max-width:380px; background:var(--bg-card); backdrop-filter:blur(30px); border:1px solid var(--glass-border-strong); border-radius:var(--radius-lg); overflow:hidden; }
-
-        /* ---- NEW: ROBOTIC LOADING POPUP STYLES ---- */
-        .robotic-popup-overlay {
+        /* Loading circular popup */
+        .circular-popup-overlay {
             position: fixed;
             inset: 0;
             z-index: 10000;
-            background: rgba(6, 6, 15, 0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(6,6,15,0.92);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.4s;
         }
-        .robotic-popup-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .robotic-popup {
-            background: rgba(18, 18, 35, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.15);
+        .circular-popup-overlay.active { opacity: 1; pointer-events: all; }
+        .circular-popup {
+            background: rgba(18,18,35,0.7);
+            border: 1px solid rgba(255,255,255,0.15);
             border-radius: 24px;
-            padding: 30px 24px;
-            width: 90%;
-            max-width: 360px;
+            padding: 30px 20px;
+            width: 85%;
+            max-width: 300px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,229,255,0.1);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 25px rgba(0,229,255,0.1);
             transform: scale(0.9);
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .robotic-popup-overlay.active .robotic-popup {
-            transform: scale(1);
+        .circular-popup-overlay.active .circular-popup { transform: scale(1); }
+        .spinner-container { position: relative; width: 80px; height: 80px; margin: 0 auto 20px; }
+        .spinner-container svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .spinner-track { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 6; }
+        .spinner-progress {
+            fill: none;
+            stroke: url(#progressGradient);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 251.2; /* 2*pi*40 ≈ 251.2 */
+            stroke-dashoffset: 251.2;
+            transition: stroke-dashoffset 0.05s linear;
         }
-        .robotic-popup::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 229, 255, 0.08), rgba(212, 0, 255, 0.08), transparent);
-            animation: rotateGlow 4s linear infinite;
-            z-index: 0;
-        }
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .robotic-popup > * {
-            position: relative;
-            z-index: 1;
-        }
-        .robot-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: robotPulse 2s ease-in-out infinite;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
-        }
-        @keyframes robotPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-        }
-        .robot-icon svg {
-            width: 36px;
-            height: 36px;
-            fill: #fff;
-        }
-        .fetch-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            background: linear-gradient(135deg, #fff, #00e5ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .fetch-subtitle {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-        .fetch-stages {
-            text-align: left;
-            list-style: none;
-            padding: 0;
-            margin-bottom: 20px;
-        }
-        .fetch-stages li {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            transition: all 0.5s ease;
-        }
-        .fetch-stages li .stage-icon {
-            width: 28px;
-            height: 28px;
+        .fetch-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .fetch-subtitle { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Notification */
+        .notif-bell {
+            position: fixed;
+            top: calc(var(--frame-size) + 12px);
+            right: 12px;
+            z-index: 200;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.05);
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border-strong);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .notif-bell svg { width: 20px; height: 20px; fill: #fff; }
+        .notif-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ff2d78;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            box-shadow: 0 0 8px rgba(255,45,120,0.6);
+        }
+        .notif-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s;
+        }
+        .notif-modal-overlay.visible { opacity: 1; pointer-events: all; }
+        .notif-modal {
+            width: 90%;
+            max-width: 380px;
+            max-height: 70vh;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: var(--radius-lg);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .notif-modal-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+        }
+        .notif-modal-header h3 { font-size: 1rem; }
+        .notif-modal-header button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .notif-list { flex: 1; padding: 8px 0; }
+        .notif-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            align-items: flex-start;
+        }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-item img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: rgba(255,255,255,0.05);
             flex-shrink: 0;
-            font-size: 0.8rem;
-            transition: all 0.5s ease;
         }
-        .fetch-stages li.completed {
-            color: var(--text-primary);
-        }
-        .fetch-stages li.completed .stage-icon {
-            background: linear-gradient(135deg, #00c4e0, #00e5ff);
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
-        .fetch-stages li.active {
+        .notif-item .notif-content { flex: 1; }
+        .notif-item .notif-content h4 { font-size: 0.9rem; margin-bottom: 2px; }
+        .notif-item .notif-content p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+        .notif-item .notif-link {
+            font-size: 0.75rem;
             color: var(--neon-cyan);
-        }
-        .fetch-stages li.active .stage-icon {
-            background: rgba(0, 229, 255, 0.2);
-            border: 2px solid var(--neon-cyan);
-            animation: pulse 1.2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
-        }
-        .fetch-progress {
-            width: 100%;
-            height: 3px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 3px;
-            overflow: hidden;
+            text-decoration: none;
+            border: 1px solid var(--neon-cyan-dim);
+            padding: 2px 10px;
+            border-radius: 12px;
+            display: inline-block;
             margin-top: 4px;
         }
-        .fetch-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
-            width: 0%;
-            transition: width 0.6s ease;
-            border-radius: 3px;
+
+        /* Responsive adjustments */
+        @media (max-width: 380px) {
+            .hero-title { font-size: 1.6rem; }
+            .bottom-nav-item span { font-size: 0.6rem; }
+            .bottom-nav-item svg { width: 18px; height: 18px; }
+            .guide-card .char-img { width: 48px; height: 48px; }
+            .guide-card .field strong { width: 70px; }
+        }
+        @media (max-width: 320px) {
+            .bottom-nav { padding: 4px 2px; }
+            .bottom-nav-item { min-width: 38px; padding: 2px 4px; }
+            .features-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
         }
     </style>
 </head>
@@ -424,49 +513,40 @@
     <div class="header-frame"></div>
     <div class="footer-frame"></div>
 
-    <div class="bg-orbs"><div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div></div>
-
-    <!-- NEW: ROBOTIC LOADING POPUP -->
-    <div class="robotic-popup-overlay" id="roboticPopupOverlay">
-        <div class="robotic-popup">
-            <div class="robot-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2zM7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13zm9 0A2.5 2.5 0 0 0 14 15.5a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5z"/></svg>
+    <!-- Circular Loading Popup (Start Chatting) -->
+    <div class="circular-popup-overlay" id="circularPopupOverlay">
+        <div class="circular-popup">
+            <div class="spinner-container">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#00e5ff"/>
+                            <stop offset="100%" stop-color="#d400ff"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="spinner-track" cx="50" cy="50" r="40"/>
+                    <circle class="spinner-progress" id="spinnerProgress" cx="50" cy="50" r="40"/>
+                </svg>
             </div>
-            <div class="fetch-title">Initializing AI Engine</div>
-            <div class="fetch-subtitle">Please wait while we set up your experience</div>
-            <ul class="fetch-stages" id="fetchStages">
-                <li data-stage="0"><span class="stage-icon">⚙️</span><span>Waking up AI core</span></li>
-                <li data-stage="1"><span class="stage-icon">🔐</span><span>Establishing secure session</span></li>
-                <li data-stage="2"><span class="stage-icon">📡</span><span>Fetching character database</span></li>
-                <li data-stage="3"><span class="stage-icon">🧠</span><span>Loading neural patterns</span></li>
-                <li data-stage="4"><span class="stage-icon">✨</span><span>Optimizing chat experience</span></li>
-            </ul>
-            <div class="fetch-progress">
-                <div class="fetch-progress-fill" id="fetchProgressFill"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-card">
-            <div id="loadingStages" style="list-style:none;text-align:left;margin-bottom:18px;"></div>
-            <div class="loading-progress-bar"><div class="loading-progress-fill" id="loadingProgressFill"></div></div>
-            <div id="loadingPercent" style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;text-align:right;">0%</div>
+            <div class="fetch-title">Preparing Your AI</div>
+            <div class="fetch-subtitle">Just a moment...</div>
         </div>
     </div>
 
     <!-- Notification Bell -->
-    <div class="notif-bell" id="notifBell"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div class="notif-bell-dot" id="notifBellDot"></div></div>
+    <div class="notif-bell" id="notifBell">
+        <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <span class="notif-count" id="notifCount" style="display:none;">0</span>
+    </div>
 
     <!-- Notification Modal -->
     <div class="notif-modal-overlay" id="notifModalOverlay">
         <div class="notif-modal">
-            <div style="position:relative;"><img id="notifModalImg" src="" style="width:100%;height:170px;object-fit:cover;" alt="Welcome"><button id="notifModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;">✕</button></div>
-            <div style="padding:20px 18px;text-align:center;">
-                <h3 id="notifModalTitle"></h3>
-                <p id="notifModalDesc" style="font-size:0.85rem;color:var(--text-muted);margin-top:12px;"></p>
+            <div class="notif-modal-header">
+                <h3>Notifications</h3>
+                <button id="notifModalClose">✕</button>
             </div>
+            <div class="notif-list" id="notifList"></div>
         </div>
     </div>
 
@@ -479,8 +559,8 @@
                 <p class="hero-subtitle">Make Friends & Chat with AI</p>
                 <p class="hero-description">Experience lifelike AI characters, build real connections, and generate images while chatting.</p>
                 <div style="margin: 12px 0;">
-                    <p style="font-weight:600; color:var(--neon-cyan); margin-bottom:10px;">How to use</p>
-                    <a href="https://youtube.com/shorts/pWQxZGIl2es?si=0gbeiWZYkEDwKTUD" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-bottom:12px;">Watch Tutorial</a>
+                    <p style="font-weight:600; color:var(--neon-cyan); margin-bottom:8px;">How to use</p>
+                    <a href="https://youtube.com/shorts/pWQxZGIl2es?si=0gbeiWZYkEDwKTUD" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-bottom:10px;">Watch Tutorial</a>
                 </div>
                 <button class="btn btn-primary" id="btnStartChatting">Start Chatting</button>
                 <div class="legal-links" id="legalLinks"></div>
@@ -500,7 +580,7 @@
         <div class="page" id="page-characters">
             <section class="section-spacing">
                 <h2 class="section-title">Character Design Guide</h2>
-                <p class="section-subtitle">Tips & examples to create your perfect AI character</p>
+                <p class="section-subtitle">Create irresistible AI companions</p>
                 <div id="characterGuide"></div>
             </section>
         </div>
@@ -513,7 +593,7 @@
                 <div class="gallery-grid" id="galleryGrid"></div>
                 <div style="text-align:center;">
                     <button class="shuffle-btn" id="shuffleGalleryBtn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg>
                         Shuffle Images
                     </button>
                 </div>
@@ -525,11 +605,11 @@
             <section class="section-spacing">
                 <h2 class="section-title">Make Friends</h2>
                 <p class="section-subtitle">Real connections start here</p>
-                <div style="text-align:center; padding:20px 10px;">
-                    <p style="color:var(--text-secondary); max-width:300px; margin:0 auto 20px;">
+                <div style="text-align:center; padding:16px 10px;">
+                    <p style="color:var(--text-secondary); max-width:280px; margin:0 auto 16px;">
                         Meet like‑minded people, share experiences, and build meaningful friendships through our virtual chat community.
                     </p>
-                    <a href="https://virtualdatinghub.com" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;">
+                    <a href="https://virtualdatinghub.com" target="_blank" rel="noopener" class="btn btn-primary">
                         Make Real Friends Now!
                     </a>
                 </div>
@@ -550,7 +630,7 @@
             <section class="section-spacing">
                 <h2 class="section-title">Get In Touch</h2>
                 <p class="section-subtitle">We'd love to hear from you</p>
-                <form id="contactForm" style="display:flex;flex-direction:column;gap:12px;padding:20px 18px;" class="glass-card">
+                <form id="contactForm" style="display:flex;flex-direction:column;gap:12px;padding:18px 16px;" class="glass-card">
                     <input type="text" class="glass-input" id="contactName" placeholder="Your Name" required maxlength="50">
                     <input type="email" class="glass-input" id="contactEmail" placeholder="Your Email" required maxlength="100">
                     <textarea class="glass-input" id="contactMessage" placeholder="Your Message" required maxlength="500"></textarea>
@@ -573,16 +653,27 @@
 
     <script>
         (function() {
+            // ---------- CONFIGURATION ----------
             const CONFIG = {
                 app_name: 'RoleVerse AI',
                 app_logo: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
                 chat_url: 'https://perchance.org/roleverse',
                 privacy_url: 'https://roleverseai.blogspot.com/p/privacy-policy.html',
                 terms_url: 'https://roleverseai.blogspot.com/p/terms-of-service.html',
-                notification_enabled: true,
-                notification_title: 'Welcome to RoleVerse AI! 🚀',
-                notification_description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
-                notification_image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
+                // ─── Notifications remote source ──────────────
+                // Replace with your own JSON endpoint containing array of notification objects.
+                // Example structure: { "notifications": [ { "id":"1", "title":"Hello", "description":"...", "image":"https://...", "link":"https://..." } ] }
+                // If left empty, only the static welcome notification will be used.
+                notifications_url: '',
+                // Static fallback (shown when no remote URL or fetch fails)
+                static_notifications: [
+                    {
+                        id: 'welcome',
+                        title: 'Welcome to RoleVerse AI! 🚀',
+                        description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
+                        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png'
+                    }
+                ],
                 social: [
                     { platform: 'Telegram', url: 'https://t.me/roleverseai', icon: 'telegram' },
                     { platform: 'YouTube', url: 'https://youtube.com/@roleverseai', icon: 'youtube' },
@@ -591,55 +682,67 @@
                     { platform: 'Facebook', url: 'https://facebook.com/roleverseai', icon: 'facebook' }
                 ],
                 features: [
-                    { icon:'🧠', title:'AI Chat & Images', description:'Chat naturally and get AI images in the same flow, no separate prompt needed.' },
-                    { icon:'🖼️', title:'Integrated Image Gen', description:'Images appear during conversation, not as a separate tool.' },
-                    { icon:'🔒', title:'Device‑Only Privacy', description:'All data stays in your device cache, never uploaded to any server.' },
+                    { icon:'🧠', title:'AI Chat & Images', description:'Chat naturally and get AI images in the same flow.' },
+                    { icon:'🖼️', title:'Integrated Image Gen', description:'Images appear during conversation, no separate tool.' },
+                    { icon:'🔒', title:'Device‑Only Privacy', description:'All data stays in your device, never uploaded.' },
                     { icon:'🛡️', title:'Fully Secured', description:'End‑to‑end encrypted, your privacy is absolute.' },
                     { icon:'⚡', title:'Real‑time Response', description:'Instant AI replies with zero latency.' },
-                    { icon:'🌐', title:'For Everyone', description:'Open access, no hidden costs. Chat and create without limits.' }
+                    { icon:'🌐', title:'For Everyone', description:'Open access, no hidden costs.' }
                 ],
-                characterExamples: [
-                    { name: 'Luna Star', personality: 'Mystical, poetic, gentle', description: 'A moon goddess who speaks in riddles and weaves dreams into words.' },
-                    { name: 'Rex Blaze', personality: 'Rebellious, witty, protective', description: 'A cyberpunk hacker with a heart of gold.' },
-                    { name: 'Aria Wave', personality: 'Calm, creative, curious', description: 'An ocean‑inspired dreamer who finds beauty in every ripple.' }
+                // Male & Female character examples
+                maleCharacters: [
+                    {
+                        name: 'Rex Blaze',
+                        image: 'https://via.placeholder.com/100x100/2e2e4a/ffffff?text=RB', // replace with a good-looking image URL
+                        appearance: 'Tall, athletic, sharp jawline, piercing blue eyes, stylish cyberpunk jacket',
+                        personality: 'Rebellious, witty, protective, warm-hearted',
+                        description: 'A cyberpunk hacker with a heart of gold, always ready to shield you from digital threats.'
+                    },
+                    {
+                        name: 'Leo Storm',
+                        image: 'https://via.placeholder.com/100x100/4a2e4a/ffffff?text=LS',
+                        appearance: 'Muscular, sun‑kissed skin, tousled dark hair, confident smile',
+                        personality: 'Adventurous, charming, supportive, great listener',
+                        description: 'An explorer who treats every chat like a new adventure, full of passion and care.'
+                    }
+                ],
+                femaleCharacters: [
+                    {
+                        name: 'Luna Star',
+                        image: 'https://via.placeholder.com/100x100/4a2e5e/ffffff?text=LS',
+                        appearance: 'Ethereal beauty, silver hair, luminous skin, gentle eyes',
+                        personality: 'Mystical, poetic, gentle, deeply empathetic',
+                        description: 'A moon goddess who speaks in riddles and weaves dreams into words.'
+                    },
+                    {
+                        name: 'Aria Wave',
+                        image: 'https://via.placeholder.com/100x100/2e5e4a/ffffff?text=AW',
+                        appearance: 'Graceful, wavy ocean‑blue hair, bright turquoise eyes, soft curves',
+                        personality: 'Calm, creative, curious, endlessly kind',
+                        description: 'An ocean‑inspired dreamer who finds beauty in every ripple.'
+                    },
+                    {
+                        name: 'Nova Flame',
+                        image: 'https://via.placeholder.com/100x100/5e2e4a/ffffff?text=NF',
+                        appearance: 'Fierce red hair, athletic build, intense amber eyes, bold style',
+                        personality: 'Passionate, protective, warm, surprisingly nurturing',
+                        description: 'A fire mage who will fight for you while making you feel completely safe.'
+                    }
                 ],
                 galleryImages: [
                     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMSxx1dIb2AAnXLM5Sd2_Z598QcHOQuzJok5V3Qy2lZkPcW0GubEWZoAV2_9SUtduPwqLSGEoljIiR-6snvG9UcKYtthbCRh_3dkdcQ6wsai91BUaBHGeQX-3I4hb7R-_0Ldc-EuTbpOlcpC0dx2G3oktihV9zXHz8bkWnj9Gf4EhVK_99ADD2anliawo/s768/6ccfbf58ce124995d08fd038b8ff30f429e5c70ebb18c81ea6cdf369b2b1c8d1.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCPOiHmnGNgWGAh5S_1-xzGux6xQel4YZIdCFGVxK6D3RmNDZRyxO4ve2KQogdIQpI1fXiJFchNzmG-0u8Cuy2PbtbgPkdpPUv8UJWJEWgtnPR1ra9wvNwE5aNaatDJ92j8lC37W6oXONfZptTUGx2yfhTVjTLauQFU_gl2mNPBbJmI-Kwu1J27tF1Pyg/s768/80fedd55fdab009d1ed5e25842fec03b399b747a3333d0df1f94bb8da93531cd.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbbXfcT1LEcdramllIUe8MBaANO-q4h8gpiBfbHQwFeTgB_Ga2if_lzhFrMhsRe-DwI_2VU7ch4wAZoZQLoqtbMsBEFUbZ4QdNu4p4c0fZoaah57xMjHZXnM5BkmjzAyVy88o_77vh4sf0sV4RdlC1-ZHTz8vdBN8revb6PnOpiQAqMOoHLjLUkdTLHwo/s768/a56ea020897a43e8a172e294cc618132f3cd8eb3d76582aa2e5ccd01178343c3.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg1GVuSMGltaa_GrlitJ-1S2gnMacPJkeHKLKJhNJrtMyAOMLZgqMqmbZ83-VFREa39-2gCSA6SsytC6GNxc4vc3CzIWCg4DCbavL46EVNE64ybXd68XcbEWjyUPp93LCT9tttJOTt_As2kpjeGlkHKRuwwtVoojPyND1BpthZ23YLiaReVl1iy_P5sT8s/s768/1d31546aa981556a2847107aaf9779944a8477b4c4b19e63007d2e9deb0436ec.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihLpdLKUPEel3gmvD0KhU92yKcDFhNvssJ5-3ol6Z4io6KWPLVP20fSGCImpr92SSkqCJtHpopgA4YFE1BjiO8hH736A4Vn0-AZVRWoh8Tz_QG35h5jLBqXW87hHtMI9vG6v28wNEAP9v5jA8PYN0dLZIiDsms11hS_8gNudzK1eUPSPT5WzJe-qOniRY/s768/eb85be08fca44b5930b99fc24eb01e2e532df6531c1f15140b882fff62746560.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEioP0KuwY-Qk57Zd9KszBb4cd1THKVhH30_14YbMm5PRpWCuRV8UzueYs05FJV8rejr1XhprLbOxdqt5-4V0tPjCxax83h2YrA97Nmj1q3sT7Esq1-0WJ5l5kVM5UTl5OeYHtdIZJyURHZpRrt-5FMTCN0twrKTQKEREZjGhwyt0p9LdiBCtUDBWJfV31w/s768/aeca3484f139575cfc2639320edbfdcf25a188f64c4866a079a2c59b8874ebaf.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPlBkoXSLIh8NovD_9DcdtKw8Ur-IAXOmkhwQXBel46A_TePP98_T7ElCmXw7Jz50XqXuxrG3XVIEVZ8I0SKwsS1XM7NlP-h_Bt8a5jBcusyFFU-Ultna25DwH1x4tyy8sh30W1TDALrEpZtfCxGszWAKdglm-C8y7nGoPB2ShCFteItbcjDFdTm9x6nc/s768/89a7773b6c31a7fbfcfdc56900148365b87eb0de6a704b4bb4477534207138a4.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgi8sVfSf4p_PbiF60rLm6Xd0mKf68_1QKF4HGZ_RMbJ6oUy_iKK1Htod1Qtn87WiVNgVnoOifPLw23osLEhaFO5UivXTSEpNjdBGrv7E1gmaObBm5KiZkNg_wUc90BeZG3qe7Bi55NIYF5TD0IY1XDpartJHihgXhOZu0-j9qxPlJU3X9pi7GUrvNsaTo/s768/736ac67428ad064ab43016d0a086067dcba840187747eca3dabfa27d3336aa98.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhmfFAJxAG3Xd3h9S30cYbx2r94FDlgFJqbCViCsAhLRwnULJ3osftTkWhy4qP0VC4UphZl4VTyEW2VRqgWzPInBWFUTXk-O719epxxH-wikOm7MeWeKxow1-tn41LpwXJj6FOQYQhQtJhwBvZnkCzk39CkgRAqQCSfCImiA2nu9xoSTkXy1TMm5AbFqSU/s768/4765965c98ce371f8ea5bd3bc1b3d6f14368896e1164025258300adb46447cad.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-ybUrUlPTjc5sSG4f3B4nj4alJ_ehM3O681c8Pi-fVjAzZLyS6NgAIwM98m6mDzDPYfU8u7AZ_UyNjrLtADryxVXn2WroE51P3YDN9y4syTAQRMJO2Z_Y6QSRRNVyrF-wiUDBx1r5dzOiqI-r2FCBv27B63JNVO8sYwlfmMuBXfQtK6eF7Jipc1BsFFw/s768/2e5a31fa1d78955a646c0956f3fd011b4849806373c3f79aaea5154648a86464.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiq_NqE2pVk1WCzst6eRzVnyCJ9UjaCIhdcXgAMLOQJLyCILNZ57EckOHqJc1yWERgysX-t7RTAMdBUNdzXoKqJp41S8RjXWHWQHSkgFDMW4I_DI_PdKUz5CK3A8AatdXSmy2QW_UbCIR4PotESHEJj4pwP24ko8UgF6WdHVXhSxsO4W11vfR_Z7iHPgmw/s768/77be3fc9ae4379d73a3dc005e2c019df195a2093651d8ad3e0c420f216f1214d.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqIBjLc4Wv2wEOS-k3-6QH_WJJ_ecn67Q8FderDvzJonoV2fW6bz6jvg9gt6GYhYWSEX8DWjmP276h-xTUa3RarBkriNBQawuS8R7QjjSBsLKUYWONKUdI3PrUmw6qqqhTekH6CLQ3NXRzp5K1fBJkgrsuI1ArGya6GGHfv63c_V_iCw4Kp3hRSx5mFOQ/s768/7de3460f5fa64c5f6ea1e98f678ee57f2e200d1ab7baa2eb0226e14bdc8b2a7a.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgUg-Iqo7SEY395KiJY49wAHO1xa8qN9EdhQwkRky5ljEnQGSk9Hfqs_TJa7duquQyqZXYbIpRjnuTRs0U5j-S8qPQGQE4-VwY_G1xweME93f-ZMC7gnNvbm1TLzpph47sGV1TJdb02JHWQqBfyN6b0cOo4azzqHaYdCYNRcg69qEZthUi_wFCuzSPyNzE/s768/ee8de44de82a4f30b6e7fb0b02e9de799f87d237c6f6e10378169021dedad33e.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgeaSvgaY2AuLyBix8BQvjxjPazrPZXfJJajMnkJjS9DoZQWJ8JozsSX9B7b5J1aCL-5HJfnHGg3DMDH6AmFnjTTkgxlATWf6A8p5Z7y1svFQdku8PuB5i4IyE5V9FbiG8vJ4eJDHBz37Ln8zf6Zo12Tagor3jHof7KIFDwUOCjXFW1vvp3DK6Z3myH324/s768/891f6096158f697d7c0593075b6848c43580a3023cd0bb37857bff352084c348.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPUrjK6NKPBQ8z8OlxlkJdvM7kYVPKkshIqdWMAwEiVr7gzphGUo8TS8r_EvO9KaFJiOvGNN1dsgeCRPTxh5NPd8fR3PeoqVmIRe-SRye-E_H7c6WxDLXPaHFQ5Gkm9K6UdA0mcwSxVJGs8GXu_SmF31gsD-TBBW8CT286CVf1vfjM43QJTmZEAR-0IOM/s768/9dc49e73b6755347f6ecdbbbe1e1a6a022ed8b1824d316616f885a5416bbb2f8.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEge47XiHHgXQSCtjcitVs_W-7oUaJn2pTibToYo2xm64ulFDBYGDEqQkcG2poD1iAvVn-RMbjcX3kXbx-InwoNRK6gwvx798Ab_G4UjALyjUxKTtToL7HVeNkLGbxi9wlE5NuDSFinqoCWzlSnloIW_i3m22e7Xj2C-mIG_ZO0xCu6RiuZ-tkWcshbvNkg/s768/a625d795c8c98b61cb0c210e2ace9056d55530db9f9fcffaf12857c75a9dc8b3.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgZFoR2QDFR5K_7yzFayOZ61gaGK-wISAdW779mGHiGa9fMPxTv1skp5IYnQWFnZE2AAxABEhallQ79CqY-lkWNHGPOSe_JVwmJxJ5I8qneGGvjrVHGVFxHrWRZSLeteuJLmlnJ-3_HZX5FreBGVqdKJRjYMnoFQ4l-hPa5N7_iWB6mk3pzzgjk_RLnG8A/s768/3611b6aa3e3f6abe5cc192e00049931b90b8952d1ebbb56b873c43c6e33a439f.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiu8pFacZCA3TtaT_MR8_TxiSQMb0SZw4eq3s5a3aMQM67XDAQ-tFFbhWeAKgzvQHJfyWn9LjLjI-c-HSEvOjtakO-JMQSr4PJukLb_9TQ9M4EyVsmGpYn1O4GOsipwoBv3sn0RIQCW1FFo_krDuIRoCS9S1kV5WIuroJczX0JE-bm27EdrzlR4U5HnmVk/s768/15b6a017e8839eb5c8a916f24acda4733e9028da471226cd43b93d0a326e8e3d.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikFiUf2F4VokVrgDbXePzDIOmazZCjD7pKgQak0hdHllUDnS9idtvjmsFmdOSsfobdLipKOtHmyvBRNu4BcbYIB_QnQNKiQTR-u2zFi9-bZEqKqNYVBXDM2kkxx6GRoNKdREkRRfkG_dc8c1iXhEKscVP6FOi49krfNVu60EUUXTsKHe4FHWrGD1cjxwE/s768/7b94feaef52f00554a2199ac74d08ebbb51ed8eb0bdda69cd48e0fae7b0b3e07.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhNbX_uNEQQvsEIeyWiHiVupxqnEco_9XknQ4qmAHcrKCmu3gWoHe7hC5s_I6I4-XdOBN8pibqm0gOqrWMRh1SpXn9AVWUdvwE9ruGwQ7rk3bSTNHT8lz61EW6LM7CCwVcwSJFO3kHNUUlMZ5xLpZC9Y-SO91YnDTrXXHAfDwiSz3UCRvppT22Skmvm2MQ/s768/349db6414b80ace322215afaa700252a8ea2c1f11e16090876982d5d4b2ad8da.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiN__B-6LdP8TLFSh2LP5Q6JdOXSydrbE3zQbnx3nOZXo4eEYI8PQbB3Ke9gcAK-8RiDetAfN3DMyD-usLaQszOGjRGrCdh2qdYeJTB4kIQqpqTC4wAhWgBoSGrsXWESG0yqHh9TAuNdUqRz-qh6taMpBVM4aJMRsO8efX4mDnVAzcPbybSVFgrdbYDyOY/s768/8a24c2be5c052d2199ac82303a950a8f875794085b0cd08f50a56820431bb2fc.jpeg",
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMFG8FVHHpDcd-9kzZQDHIeS5i9R0fp6FK-7kWZXXvrMPCPKVIH7crHXMjSlp_ipR6VyTPxqK93rJ7c8RNAyb1iEKNXCFi65Wcui21w8h4HdU3LEgBtvhcO3Uu6xYLTCxZo2fuQ0qY7aZ1gPWZAU5cINAVuG-rYdqXIAEyCEg7t7jJ2BylaRcNp14o_Fk/s768/199f8ff35d577789cc1788de92500ebf7be2d92322b9b3fd53837d98d4a66f14.jpeg"
+                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCPOiHmnGNgWGAh5S_1-xzGux6xQel4YZIdCFGVxK6D3RmNDZRyxO4ve2KQogdIQpI1fXiJFchNzmG-0u8Cuy2PbtbgPkdpPUv8UJWJEWgtnPR1ra9wvNwE5aNaatDJ92j8lC37W6oXONfZptTUGx2yfhTVjTLauQFU_gl2mNPBbJmI-Kwu1J27tF1Pyg/s768/80fedd55fdab009d1ed5e25842fec03b399b747a3333d0df1f94bb8da93531cd.jpeg"
                 ]
             };
 
+            // ---------- DOM references ----------
             const $ = s => document.querySelector(s);
-            const loadingOverlay = $('#loadingOverlay');
-            const loadingProgressFill = $('#loadingProgressFill');
-            const loadingPercent = $('#loadingPercent');
-            const loadingStages = $('#loadingStages');
+            const circularPopupOverlay = $('#circularPopupOverlay');
+            const spinnerProgress = $('#spinnerProgress');
             const notifBell = $('#notifBell');
-            const notifBellDot = $('#notifBellDot');
+            const notifCount = $('#notifCount');
             const notifModalOverlay = $('#notifModalOverlay');
-            const notifModalImg = $('#notifModalImg');
-            const notifModalTitle = $('#notifModalTitle');
-            const notifModalDesc = $('#notifModalDesc');
+            const notifList = $('#notifList');
             const notifModalClose = $('#notifModalClose');
             const btnStartChatting = $('#btnStartChatting');
             const featuresGrid = $('#featuresGrid');
@@ -651,13 +754,11 @@
             const heroTitle = $('#heroTitle');
             const legalLinks = $('#legalLinks');
             const characterGuide = $('#characterGuide');
-            // Robotic popup elements
-            const roboticPopupOverlay = $('#roboticPopupOverlay');
-            const fetchStages = $('#fetchStages');
-            const fetchProgressFill = $('#fetchProgressFill');
 
             const pages = document.querySelectorAll('.page');
             const navItems = document.querySelectorAll('.bottom-nav-item');
+
+            // ---------- Navigation ----------
             function navigateTo(pageId) {
                 pages.forEach(p => p.classList.remove('active'));
                 const target = document.getElementById('page-' + pageId);
@@ -683,30 +784,62 @@
             if (initialHash && document.getElementById('page-' + initialHash)) navigateTo(initialHash);
             else navigateTo('home');
 
+            // ---------- UI Initialization ----------
             function initUI() {
                 heroTitle.textContent = CONFIG.app_name;
                 document.title = CONFIG.app_name + ' - Make Friends & Chat';
                 heroImage.src = CONFIG.app_logo;
                 legalLinks.innerHTML = `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank" rel="noopener">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank" rel="noopener">Terms of Service</a>.`;
 
+                // Features
                 featuresGrid.innerHTML = CONFIG.features.map(f => `
                     <div class="feature-card">
                         <span class="feature-icon">${f.icon}</span>
-                        <h3 style="font-size:0.95rem; margin-bottom:4px;">${f.title}</h3>
-                        <p style="font-size:0.8rem; color:var(--text-muted);">${f.description}</p>
+                        <h3 style="font-size:0.9rem; margin-bottom:4px;">${f.title}</h3>
+                        <p style="font-size:0.75rem; color:var(--text-muted);">${f.description}</p>
                     </div>
                 `).join('');
 
-                characterGuide.innerHTML = CONFIG.characterExamples.map((c, i) => `
+                // Character Guide (separate male/female)
+                const maleCards = CONFIG.maleCharacters.map(c => `
                     <div class="guide-card">
-                        <h4>Example ${i+1}</h4>
-                        <div class="field"><strong>Name:</strong> ${c.name}</div>
-                        <div class="field"><strong>Personality:</strong> ${c.personality}</div>
-                        <div class="field"><strong>Description:</strong> ${c.description}</div>
-                        <button class="copy-btn" data-copy="Name: ${c.name}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
+                        <img class="char-img" src="${c.image}" alt="${c.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23fff%22 x=%2250%22 y=%2255%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2214%22%3E${c.name.charAt(0)}%3C/text%3E%3C/svg%3E'">
+                        <div class="info">
+                            <div class="field"><strong>Name:</strong> ${c.name}</div>
+                            <div class="field"><strong>Appearance:</strong> ${c.appearance}</div>
+                            <div class="field"><strong>Personality:</strong> ${c.personality}</div>
+                            <div class="field"><strong>Description:</strong> ${c.description}</div>
+                            <button class="copy-btn" data-copy="Name: ${c.name}\nAppearance: ${c.appearance}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
+                        </div>
                     </div>
-                `).join('') + `<a href="https://t.me/roleverseai" target="_blank" rel="noopener" class="btn btn-secondary more-ideas-btn">✨ More Character Ideas</a>`;
+                `).join('');
 
+                const femaleCards = CONFIG.femaleCharacters.map(c => `
+                    <div class="guide-card">
+                        <img class="char-img" src="${c.image}" alt="${c.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23fff%22 x=%2250%22 y=%2255%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2214%22%3E${c.name.charAt(0)}%3C/text%3E%3C/svg%3E'">
+                        <div class="info">
+                            <div class="field"><strong>Name:</strong> ${c.name}</div>
+                            <div class="field"><strong>Appearance:</strong> ${c.appearance}</div>
+                            <div class="field"><strong>Personality:</strong> ${c.personality}</div>
+                            <div class="field"><strong>Description:</strong> ${c.description}</div>
+                            <button class="copy-btn" data-copy="Name: ${c.name}\nAppearance: ${c.appearance}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                characterGuide.innerHTML = `
+                    <div class="character-category">
+                        <div class="category-title">👨 Male Characters</div>
+                        ${maleCards}
+                    </div>
+                    <div class="character-category">
+                        <div class="category-title">👩 Female Characters</div>
+                        ${femaleCards}
+                    </div>
+                    <a href="https://t.me/roleverseai" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-top:8px;">✨ More Character Ideas</a>
+                `;
+
+                // Copy button listeners
                 document.querySelectorAll('.copy-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const text = btn.dataset.copy;
@@ -717,8 +850,10 @@
                     });
                 });
 
+                // Gallery
                 function getRandomImage() {
-                    return CONFIG.galleryImages[Math.floor(Math.random() * CONFIG.galleryImages.length)];
+                    const arr = CONFIG.galleryImages;
+                    return arr[Math.floor(Math.random() * arr.length)];
                 }
                 function updateGallery() {
                     const images = [];
@@ -729,6 +864,7 @@
                 shuffleBtn.addEventListener('click', updateGallery);
                 setInterval(updateGallery, 4000);
 
+                // Social icons
                 const iconSVGs = {
                     telegram: '<svg viewBox="0 0 24 24" fill="#0088cc"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>',
                     youtube: '<svg viewBox="0 0 24 24" fill="#ff0000"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.04c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96 29 29 0 00.46-5.33 29 29 0 00-.46-5.33zM9.75 15.02V8.48L15.5 11.75l-5.75 3.27z"/></svg>',
@@ -741,87 +877,136 @@
                     return `<a class="social-card" href="${s.url}" target="_blank" rel="noopener">${icon}<span>${s.platform}</span></a>`;
                 }).join('');
 
-                updateNotificationUI();
+                // Initialize notifications (dynamic fetching)
+                initNotifications();
             }
 
-            const NOTIF_KEY = 'rv_notif_v3';
-            function getNotifHash() { return JSON.stringify({t:CONFIG.notification_title,d:CONFIG.notification_description,i:CONFIG.notification_image,e:CONFIG.notification_enabled}); }
-            function updateNotificationUI() {
-                if (!CONFIG.notification_enabled) { notifBell.style.display='none'; return; }
-                notifBell.style.display='flex';
-                notifModalTitle.textContent = CONFIG.notification_title;
-                notifModalDesc.textContent = CONFIG.notification_description;
-                notifModalImg.src = CONFIG.notification_image || '';
-                const hash = getNotifHash();
-                const stored = JSON.parse(localStorage.getItem(NOTIF_KEY) || '{}');
-                if (stored.hash === hash && stored.seen) { notifBellDot.style.display='none'; }
-                else { notifBellDot.style.display='block'; if (!stored.hash || stored.hash !== hash || !stored.seen) setTimeout(showNotifModal, 1500); }
-            }
-            function showNotifModal() { notifModalOverlay.classList.add('visible'); }
-            function hideNotifModal() { notifModalOverlay.classList.remove('visible'); localStorage.setItem(NOTIF_KEY, JSON.stringify({hash:getNotifHash(), seen:true})); notifBellDot.style.display='none'; }
-            notifBell.addEventListener('click', showNotifModal);
-            notifModalClose.addEventListener('click', hideNotifModal);
-            notifModalOverlay.addEventListener('click', (e) => { if(e.target===notifModalOverlay) hideNotifModal(); });
+            // ---------- Circular Loading Popup (3 sec) ----------
+            function showCircularLoading(callback) {
+                circularPopupOverlay.classList.add('active');
+                const circumference = 2 * Math.PI * 40; // r=40
+                spinnerProgress.style.strokeDasharray = circumference;
+                spinnerProgress.style.strokeDashoffset = circumference;
+                spinnerProgress.style.transition = 'none';
+                // Force reflow
+                void spinnerProgress.offsetWidth;
+                spinnerProgress.style.transition = 'stroke-dashoffset 3s linear';
+                spinnerProgress.style.strokeDashoffset = '0';
 
-            // ---- ROBOTIC LOADING ANIMATION (link opens AFTER 5 sec popup) ---- //
-            function showRoboticLoading(callback) {
-                roboticPopupOverlay.classList.add('active');
-                const stageItems = fetchStages.querySelectorAll('li');
-                fetchProgressFill.style.width = '0%';
-                stageItems.forEach(li => {
-                    li.classList.remove('completed', 'active');
-                });
-
-                let currentStage = 0;
-                const totalStages = stageItems.length;
-                const totalDuration = 5000; // 5 seconds total
-                const stageDuration = totalDuration / totalStages; // 1000ms per stage
-
-                function advanceStage() {
-                    if (currentStage < totalStages) {
-                        stageItems[currentStage].classList.add('active');
-                    }
-
-                    const timer = setTimeout(() => {
-                        if (currentStage < totalStages) {
-                            stageItems[currentStage].classList.remove('active');
-                            stageItems[currentStage].classList.add('completed');
-                            currentStage++;
-                            const progress = (currentStage / totalStages) * 100;
-                            fetchProgressFill.style.width = progress + '%';
-
-                            if (currentStage < totalStages) {
-                                advanceStage();
-                            } else {
-                                // All 5 stages done – now close popup AND open link
-                                setTimeout(() => {
-                                    roboticPopupOverlay.classList.remove('active');
-                                    if (callback) callback(); // opens the link
-                                }, 200);
-                            }
-                        }
-                    }, stageDuration);
-                }
-
-                advanceStage();
+                setTimeout(() => {
+                    circularPopupOverlay.classList.remove('active');
+                    if (callback) callback();
+                }, 3000);
             }
 
-            // Override Start Chatting button
             btnStartChatting.addEventListener('click', () => {
-                showRoboticLoading(() => {
-                    // Opens the link AFTER the popup finishes
+                showCircularLoading(() => {
                     window.open(CONFIG.chat_url, '_self');
                 });
             });
 
+            // ---------- Notifications (remote + static) ----------
+            const NOTIF_READ_IDS_KEY = 'rv_notif_read_ids';
+            let notificationsList = [];
+
+            function fetchNotifications() {
+                const url = CONFIG.notifications_url;
+                if (url) {
+                    return fetch(url)
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data && Array.isArray(data.notifications)) {
+                                return data.notifications;
+                            }
+                            throw new Error('Invalid format');
+                        })
+                        .catch(() => {
+                            console.warn('Falling back to static notifications');
+                            return CONFIG.static_notifications;
+                        });
+                } else {
+                    return Promise.resolve(CONFIG.static_notifications);
+                }
+            }
+
+            function getReadIds() {
+                try {
+                    return JSON.parse(localStorage.getItem(NOTIF_READ_IDS_KEY) || '[]');
+                } catch (e) {
+                    return [];
+                }
+            }
+            function setReadIds(ids) {
+                localStorage.setItem(NOTIF_READ_IDS_KEY, JSON.stringify(ids));
+            }
+
+            function updateNotifBadge() {
+                const readIds = getReadIds();
+                const unreadCount = notificationsList.filter(n => !readIds.includes(n.id)).length;
+                notifCount.textContent = unreadCount;
+                notifCount.style.display = unreadCount > 0 ? 'flex' : 'none';
+            }
+
+            function renderNotifModal() {
+                const readIds = getReadIds();
+                notifList.innerHTML = notificationsList.map(n => {
+                    const isRead = readIds.includes(n.id);
+                    return `
+                        <div class="notif-item" data-id="${n.id}">
+                            ${n.image ? `<img src="${n.image}" alt="" onerror="this.style.display='none'">` : ''}
+                            <div class="notif-content">
+                                <h4>${n.title}</h4>
+                                <p>${n.description || ''}</p>
+                                ${n.link ? `<a class="notif-link" href="${n.link}" target="_blank" rel="noopener">Open Link</a>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function markAllNotificationsRead() {
+                const allIds = notificationsList.map(n => n.id);
+                setReadIds(allIds);
+                updateNotifBadge();
+            }
+
+            function showNotifModal() {
+                renderNotifModal();
+                markAllNotificationsRead(); // all become read when modal opened
+                notifModalOverlay.classList.add('visible');
+            }
+            function hideNotifModal() {
+                notifModalOverlay.classList.remove('visible');
+            }
+
+            notifBell.addEventListener('click', showNotifModal);
+            notifModalClose.addEventListener('click', hideNotifModal);
+            notifModalOverlay.addEventListener('click', (e) => {
+                if (e.target === notifModalOverlay) hideNotifModal();
+            });
+
+            function initNotifications() {
+                fetchNotifications().then(notifs => {
+                    notificationsList = notifs;
+                    updateNotifBadge();
+                }).catch(() => {
+                    notificationsList = CONFIG.static_notifications;
+                    updateNotifBadge();
+                });
+            }
+
+            // Contact form
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const name = $('#contactName').value.trim(), email = $('#contactEmail').value.trim(), msg = $('#contactMessage').value.trim();
-                if(!name||!email||!msg){alert('Please fill all fields.');return;}
+                const name = $('#contactName').value.trim(),
+                      email = $('#contactEmail').value.trim(),
+                      msg = $('#contactMessage').value.trim();
+                if (!name || !email || !msg) { alert('Please fill all fields.'); return; }
                 window.location.href = `mailto:support@virtualdatinghub.com?subject=RoleVerse%20Support&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
                 contactForm.reset();
             });
 
+            // Start everything
             initUI();
             window.RoleVerseConfig = CONFIG;
         })();
