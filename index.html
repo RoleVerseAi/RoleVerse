@@ -26,6 +26,9 @@
             --text-primary: #f0f0f5;
             --text-secondary: #b0b0c0;
             --text-muted: #707085;
+            --gold: #f59e0b;
+            --gold-light: #fbbf24;
+            --gold-glow: rgba(245, 158, 11, 0.45);
             --radius-lg: 20px;
             --radius-md: 14px;
             --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -57,19 +60,19 @@
             position: relative;
         }
 
-        /* Simplified background */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: radial-gradient(ellipse at 20% 20%, rgba(0,229,255,0.06) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 70%, rgba(212,0,255,0.06) 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 50%, rgba(123,63,255,0.05) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 20% 20%, rgba(0, 229, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(212, 0, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(123, 63, 255, 0.05) 0%, transparent 50%);
             pointer-events: none;
         }
 
-        .header-frame, .footer-frame {
+        .header-frame,
+        .footer-frame {
             position: fixed;
             left: 0;
             width: 100%;
@@ -79,10 +82,12 @@
             background: linear-gradient(90deg, #7b3fff, #2e8b57, #2f2f2f, #7b3fff);
             background-size: 300% 100%;
         }
-        .header-frame { top: 0; }
-        .footer-frame { bottom: 0; }
-        /* Remove animation for performance */
-        /* animation: slideFrame 4s linear infinite; removed */
+        .header-frame {
+            top: 0;
+        }
+        .footer-frame {
+            bottom: 0;
+        }
 
         .main-container {
             position: relative;
@@ -104,11 +109,11 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-lg);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
             transition: var(--transition-smooth);
         }
         .glass-input {
-            background: rgba(20,20,40,0.45);
+            background: rgba(20, 20, 40, 0.45);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
@@ -121,9 +126,17 @@
             font-family: inherit;
             transition: 0.2s;
         }
-        .glass-input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 0 2px var(--neon-cyan-dim); }
-        .glass-input::placeholder { color: var(--text-muted); }
-        textarea.glass-input { resize: vertical; min-height: 100px; }
+        .glass-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 0 2px var(--neon-cyan-dim);
+        }
+        .glass-input::placeholder {
+            color: var(--text-muted);
+        }
+        textarea.glass-input {
+            resize: vertical;
+            min-height: 100px;
+        }
 
         .btn {
             display: inline-flex;
@@ -144,16 +157,178 @@
             touch-action: manipulation;
             white-space: nowrap;
         }
-        .btn:active { transform: scale(0.97); }
-        .btn-primary { background: linear-gradient(135deg, #00c4e0, #00e5ff); color: #000; box-shadow: 0 0 15px rgba(0,229,255,0.3); }
-        .btn-secondary { background: rgba(255,255,255,0.06); color: var(--text-primary); border: 1px solid var(--glass-border-strong); backdrop-filter: blur(6px); }
-        .btn-sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 10px; min-height: 34px; }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00c4e0, #00e5ff);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border-strong);
+            backdrop-filter: blur(6px);
+        }
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            border-radius: 10px;
+            min-height: 34px;
+        }
 
-        .page { display: none; width: 100%; }
-        .page.active { display: block; animation: fadeSlideIn 0.35s ease; }
-        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-get-time {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+            background-size: 200% 100%;
+            color: #1a1a00;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.5), 0 0 40px rgba(251, 191, 36, 0.2);
+            animation: goldShimmer 3s ease-in-out infinite, gentlePulse 2.5s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+        }
+        .btn-get-time::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+            animation: shimmerSweep 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .btn-get-time:hover {
+            box-shadow: 0 0 28px rgba(245, 158, 11, 0.7), 0 0 55px rgba(251, 191, 36, 0.35);
+            transform: translateY(-2px);
+        }
+        .btn-get-time:active {
+            transform: scale(0.95);
+        }
+        .btn-get-time .ad-icon {
+            font-size: 1.2rem;
+            display: inline-block;
+            animation: bounceIcon 1.2s ease-in-out infinite;
+        }
 
-        .hero-section { text-align: center; padding: 24px 6px 16px; }
+        @keyframes goldShimmer {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        @keyframes gentlePulse {
+            0%,
+            100% {
+                box-shadow: 0 0 18px rgba(245, 158, 11, 0.5), 0 0 40px rgba(251, 191, 36, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 26px rgba(245, 158, 11, 0.7), 0 0 55px rgba(251, 191, 36, 0.35);
+            }
+        }
+        @keyframes shimmerSweep {
+            0%,
+            100% {
+                transform: translate(-30%, -30%) rotate(0deg);
+            }
+            50% {
+                transform: translate(30%, 30%) rotate(180deg);
+            }
+        }
+        @keyframes bounceIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .floating-get-time {
+            position: fixed;
+            top: calc(var(--frame-size) + 10px);
+            left: 10px;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #f59e0b, #e69500);
+            color: #1a1a00;
+            font-weight: 700;
+            font-size: 0.72rem;
+            padding: 8px 14px;
+            border-radius: 24px;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.55), 0 4px 16px rgba(0, 0, 0, 0.5);
+            animation: gentlePulse 2.5s ease-in-out infinite;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            letter-spacing: 0.3px;
+            text-decoration: none;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .floating-get-time:active {
+            transform: scale(0.93);
+        }
+        .floating-get-time .floating-icon {
+            font-size: 1rem;
+            animation: bounceIcon 1.2s ease-in-out infinite;
+        }
+
+        .home-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin: 14px auto;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .home-divider::before,
+        .home-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border-strong);
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+        }
+        .page.active {
+            display: block;
+            animation: fadeSlideIn 0.35s ease;
+        }
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 24px 6px 16px;
+        }
         .hero-img-container {
             width: 100%;
             max-width: 320px;
@@ -162,11 +337,16 @@
             margin: 0 auto 16px;
             border-radius: var(--radius-lg);
             overflow: hidden;
-            background: rgba(20,20,40,0.6);
-            border: 2px solid rgba(255,255,255,0.12);
-            box-shadow: 0 0 25px rgba(0,229,255,0.15), 0 0 50px rgba(212,0,255,0.08);
+            background: rgba(20, 20, 40, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), 0 0 50px rgba(212, 0, 255, 0.08);
         }
-        .hero-img-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .hero-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
         .hero-title {
             font-size: 1.8rem;
             font-weight: 800;
@@ -177,10 +357,29 @@
             background-clip: text;
             margin-bottom: 4px;
         }
-        .hero-subtitle { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; letter-spacing: 1.2px; text-transform: uppercase; }
-        .hero-description { font-size: 0.85rem; color: var(--text-muted); max-width: 340px; margin: 0 auto 16px; }
-        .legal-links { margin-top: 14px; font-size: 0.7rem; color: var(--text-muted); }
-        .legal-links a { color: var(--neon-cyan); text-decoration: none; margin: 0 3px; }
+        .hero-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+        .hero-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 340px;
+            margin: 0 auto 16px;
+        }
+        .legal-links {
+            margin-top: 14px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .legal-links a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            margin: 0 3px;
+        }
 
         .section-title {
             font-size: 1.4rem;
@@ -192,10 +391,21 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .section-subtitle { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
-        .section-spacing { padding: 28px 0 16px; }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+        .section-spacing {
+            padding: 28px 0 16px;
+        }
 
-        .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
         .feature-card {
             padding: 18px 12px;
             text-align: center;
@@ -207,11 +417,20 @@
             position: relative;
             overflow: hidden;
         }
-        .feature-card:hover { border-color: var(--glass-border-strong); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
-        .feature-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+        .feature-card:hover {
+            border-color: var(--glass-border-strong);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+        }
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: block;
+        }
 
-        /* Character Guide */
-        .character-category { margin-bottom: 24px; }
+        .character-category {
+            margin-bottom: 24px;
+        }
         .category-title {
             font-size: 1rem;
             font-weight: 600;
@@ -237,14 +456,23 @@
             height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             flex-shrink: 0;
         }
-        .guide-card .info { flex: 1; }
-        .guide-card .field { font-size: 0.85rem; margin-bottom: 4px; }
-        .guide-card .field strong { color: var(--text-secondary); display: inline-block; width: 85px; }
+        .guide-card .info {
+            flex: 1;
+        }
+        .guide-card .field {
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+        .guide-card .field strong {
+            color: var(--text-secondary);
+            display: inline-block;
+            width: 85px;
+        }
         .copy-btn {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 4px 10px;
@@ -254,11 +482,28 @@
             transition: 0.2s;
             margin-top: 4px;
         }
-        .copy-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
 
-        .gallery-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
-        .gallery-item { border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 1; background: rgba(20,20,40,0.6); border: 1px solid var(--glass-border); }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .gallery-item {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: rgba(20, 20, 40, 0.6);
+            border: 1px solid var(--glass-border);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .shuffle-btn {
             margin-top: 14px;
             display: inline-flex;
@@ -274,7 +519,11 @@
             cursor: pointer;
         }
 
-        .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 12px; }
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 12px;
+        }
         .social-card {
             display: flex;
             flex-direction: column;
@@ -289,9 +538,19 @@
             text-decoration: none;
             color: inherit;
         }
-        .social-card:hover { border-color: var(--glass-border-strong); transform: translateY(-3px); }
-        .social-card svg { width: 32px; height: 32px; margin-bottom: 4px; }
-        .social-card span { font-size: 0.7rem; font-weight: 500; }
+        .social-card:hover {
+            border-color: var(--glass-border-strong);
+            transform: translateY(-3px);
+        }
+        .social-card svg {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 4px;
+        }
+        .social-card span {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
 
         /* Bottom Nav */
         .bottom-nav {
@@ -302,7 +561,7 @@
             z-index: 100;
             width: calc(100% - 12px);
             max-width: 480px;
-            background: rgba(10,10,22,0.8);
+            background: rgba(10, 10, 22, 0.8);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border: 1px solid var(--glass-border-strong);
@@ -310,7 +569,7 @@
             display: flex;
             justify-content: space-around;
             padding: 6px 4px;
-            box-shadow: 0 -2px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.6);
             margin-bottom: var(--safe-bottom);
         }
         .bottom-nav-item {
@@ -327,7 +586,9 @@
             flex-shrink: 0;
             position: relative;
         }
-        .bottom-nav-item.active { color: var(--neon-cyan); }
+        .bottom-nav-item.active {
+            color: var(--neon-cyan);
+        }
         .bottom-nav-item.active::after {
             content: '';
             position: absolute;
@@ -340,15 +601,22 @@
             border-radius: 0 0 4px 4px;
             box-shadow: 0 0 8px var(--neon-cyan);
         }
-        .bottom-nav-item svg { width: 20px; height: 20px; fill: currentColor; }
-        .bottom-nav-item span { font-size: 0.65rem; font-weight: 500; }
+        .bottom-nav-item svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        .bottom-nav-item span {
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
 
         /* Loading circular popup */
         .circular-popup-overlay {
             position: fixed;
             inset: 0;
             z-index: 10000;
-            background: rgba(6,6,15,0.92);
+            background: rgba(6, 6, 15, 0.92);
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
@@ -357,34 +625,59 @@
             pointer-events: none;
             transition: opacity 0.4s;
         }
-        .circular-popup-overlay.active { opacity: 1; pointer-events: all; }
+        .circular-popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
         .circular-popup {
-            background: rgba(18,18,35,0.7);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(18, 18, 35, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 24px;
             padding: 30px 20px;
             width: 85%;
             max-width: 300px;
             text-align: center;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 25px rgba(0,229,255,0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 229, 255, 0.1);
             transform: scale(0.9);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .circular-popup-overlay.active .circular-popup { transform: scale(1); }
-        .spinner-container { position: relative; width: 80px; height: 80px; margin: 0 auto 20px; }
-        .spinner-container svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-        .spinner-track { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 6; }
+        .circular-popup-overlay.active .circular-popup {
+            transform: scale(1);
+        }
+        .spinner-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+        }
+        .spinner-container svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .spinner-track {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 6;
+        }
         .spinner-progress {
             fill: none;
             stroke: url(#progressGradient);
             stroke-width: 6;
             stroke-linecap: round;
-            stroke-dasharray: 251.2; /* 2*pi*40 ≈ 251.2 */
+            stroke-dasharray: 251.2;
             stroke-dashoffset: 251.2;
             transition: stroke-dashoffset 0.05s linear;
         }
-        .fetch-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-        .fetch-subtitle { font-size: 0.8rem; color: var(--text-muted); }
+        .fetch-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .fetch-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
 
         /* Notification */
         .notif-bell {
@@ -403,7 +696,11 @@
             align-items: center;
             justify-content: center;
         }
-        .notif-bell svg { width: 20px; height: 20px; fill: #fff; }
+        .notif-bell svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+        }
         .notif-count {
             position: absolute;
             top: -6px;
@@ -419,13 +716,13 @@
             align-items: center;
             justify-content: center;
             padding: 0 4px;
-            box-shadow: 0 0 8px rgba(255,45,120,0.6);
+            box-shadow: 0 0 8px rgba(255, 45, 120, 0.6);
         }
         .notif-modal-overlay {
             position: fixed;
             inset: 0;
             z-index: 300;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -434,7 +731,10 @@
             pointer-events: none;
             transition: opacity 0.35s;
         }
-        .notif-modal-overlay.visible { opacity: 1; pointer-events: all; }
+        .notif-modal-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
         .notif-modal {
             width: 90%;
             max-width: 380px;
@@ -453,9 +753,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
         }
-        .notif-modal-header h3 { font-size: 1rem; }
+        .notif-modal-header h3 {
+            font-size: 1rem;
+        }
         .notif-modal-header button {
             background: none;
             border: none;
@@ -463,26 +765,40 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
-        .notif-list { flex: 1; padding: 8px 0; }
+        .notif-list {
+            flex: 1;
+            padding: 8px 0;
+        }
         .notif-item {
             display: flex;
             gap: 12px;
             padding: 12px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             align-items: flex-start;
         }
-        .notif-item:last-child { border-bottom: none; }
+        .notif-item:last-child {
+            border-bottom: none;
+        }
         .notif-item img {
             width: 48px;
             height: 48px;
             border-radius: 12px;
             object-fit: cover;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             flex-shrink: 0;
         }
-        .notif-item .notif-content { flex: 1; }
-        .notif-item .notif-content h4 { font-size: 0.9rem; margin-bottom: 2px; }
-        .notif-item .notif-content p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+        .notif-item .notif-content {
+            flex: 1;
+        }
+        .notif-item .notif-content h4 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        .notif-item .notif-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
         .notif-item .notif-link {
             font-size: 0.75rem;
             color: var(--neon-cyan);
@@ -496,22 +812,62 @@
 
         /* Responsive adjustments */
         @media (max-width: 380px) {
-            .hero-title { font-size: 1.6rem; }
-            .bottom-nav-item span { font-size: 0.6rem; }
-            .bottom-nav-item svg { width: 18px; height: 18px; }
-            .guide-card .char-img { width: 48px; height: 48px; }
-            .guide-card .field strong { width: 70px; }
+            .hero-title {
+                font-size: 1.6rem;
+            }
+            .bottom-nav-item span {
+                font-size: 0.6rem;
+            }
+            .bottom-nav-item svg {
+                width: 18px;
+                height: 18px;
+            }
+            .guide-card .char-img {
+                width: 48px;
+                height: 48px;
+            }
+            .guide-card .field strong {
+                width: 70px;
+            }
+            .floating-get-time {
+                font-size: 0.65rem;
+                padding: 6px 10px;
+                top: calc(var(--frame-size) + 8px);
+                left: 6px;
+            }
+            .btn-get-time {
+                font-size: 0.82rem;
+                padding: 10px 18px;
+            }
         }
         @media (max-width: 320px) {
-            .bottom-nav { padding: 4px 2px; }
-            .bottom-nav-item { min-width: 38px; padding: 2px 4px; }
-            .features-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .bottom-nav {
+                padding: 4px 2px;
+            }
+            .bottom-nav-item {
+                min-width: 38px;
+                padding: 2px 4px;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .floating-get-time {
+                font-size: 0.6rem;
+                padding: 5px 8px;
+                gap: 3px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header-frame"></div>
     <div class="footer-frame"></div>
+
+    <!-- ─── Floating "Get More Time" Pill (Always Visible) ─── -->
+    <a class="floating-get-time" href="roleverse://gettime" title="Watch ad to earn more chat time">
+        <span class="floating-icon">📺</span> +Time
+    </a>
 
     <!-- Circular Loading Popup (Start Chatting) -->
     <div class="circular-popup-overlay" id="circularPopupOverlay">
@@ -563,6 +919,16 @@
                     <a href="https://youtube.com/shorts/pWQxZGIl2es" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-bottom:10px;">Watch Tutorial</a>
                 </div>
                 <button class="btn btn-primary" id="btnStartChatting">Start Chatting</button>
+
+                <!-- ─── Prominent "Get More Time" Button on Home Page ─── -->
+                <div class="home-divider">Earn More Time</div>
+                <button class="btn btn-get-time" onclick="window.location.href='roleverse://gettime'">
+                    <span class="ad-icon">📺</span> Watch Ad & Get More Time
+                </button>
+                <p style="font-size:0.7rem; color:var(--text-muted); margin-top:6px; max-width:280px; margin-left:auto; margin-right:auto;">
+                    Watch a short ad to extend your chatting session
+                </p>
+
                 <div class="legal-links" id="legalLinks"></div>
             </section>
         </div>
@@ -578,7 +944,6 @@
 
         <!-- PAGE: Characters (Guide) -->
         <div class="page" id="page-characters">
-            <!-- Fixed heading: extra top padding to prevent hiding under the header frame -->
             <section class="section-spacing" style="padding-top: 56px;">
                 <h2 class="section-title">Character Design Guide</h2>
                 <p class="section-subtitle">Create irresistible AI companions</p>
@@ -661,20 +1026,13 @@
                 chat_url: 'https://perchance.org/roleverse',
                 privacy_url: 'https://roleverseai.blogspot.com/p/privacy-policy.html',
                 terms_url: 'https://roleverseai.blogspot.com/p/terms-of-service.html',
-                // ─── Notifications remote source ──────────────
-                // Replace with your own JSON endpoint containing array of notification objects.
-                // Example structure: { "notifications": [ { "id":"1", "title":"Hello", "description":"...", "image":"https://...", "link":"https://..." } ] }
-                // If left empty, only the static welcome notification will be used.
                 notifications_url: '',
-                // Static fallback (shown when no remote URL or fetch fails)
-                static_notifications: [
-                    {
-                        id: 'welcome',
-                        title: 'Welcome to RoleVerse AI! 🚀',
-                        description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
-                        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png'
-                    }
-                ],
+                static_notifications: [{
+                    id: 'welcome',
+                    title: 'Welcome to RoleVerse AI! 🚀',
+                    description: 'Discover a new way to make friends and chat with AI characters. Enjoy your journey!',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png'
+                }],
                 social: [
                     { platform: 'Telegram', url: 'https://t.me/roleverseai', icon: 'telegram' },
                     { platform: 'YouTube', url: 'https://youtube.com/@roleverseai', icon: 'youtube' },
@@ -683,58 +1041,59 @@
                     { platform: 'Facebook', url: 'https://facebook.com/roleverseai', icon: 'facebook' }
                 ],
                 features: [
-                    { icon:'🧠', title:'AI Chat & Images', description:'Chat naturally and get AI images in the same flow.' },
-                    { icon:'🖼️', title:'Integrated Image Gen', description:'Images appear during conversation, no separate tool.' },
-                    { icon:'🔒', title:'Device‑Only Privacy', description:'All data stays in your device, never uploaded.' },
-                    { icon:'🛡️', title:'Fully Secured', description:'End‑to‑end encrypted, your privacy is absolute.' },
-                    { icon:'⚡', title:'Real‑time Response', description:'Instant AI replies with zero latency.' },
-                    { icon:'🌐', title:'For Everyone', description:'Open access, no hidden costs.' }
+                    { icon: '🧠', title: 'AI Chat & Images',
+                        description: 'Chat naturally and get AI images in the same flow.' },
+                    { icon: '🖼️', title: 'Integrated Image Gen',
+                        description: 'Images appear during conversation, no separate tool.' },
+                    { icon: '🔒', title: 'Device‑Only Privacy',
+                    description: 'All data stays in your device, never uploaded.' },
+                    { icon: '🛡️', title: 'Fully Secured',
+                        description: 'End‑to‑end encrypted, your privacy is absolute.' },
+                    { icon: '⚡', title: 'Real‑time Response',
+                    description: 'Instant AI replies with zero latency.' },
+                    { icon: '🌐', title: 'For Everyone', description: 'Open access, no hidden costs.' }
                 ],
-                // Male & Female character examples
                 maleCharacters: [
-    {
-        name: 'Kael Voss',
-        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjhfbIKvht7eEwpeAvSgt4i54rSVtVWKd1rcPqalZY4JhOo1C39qJpKsM9uE17H8h9yqmG_iEGhkFJn0xIFYX6F4dFUtH5i5Iv0Sq8vZa6wUKjsi4Gl9CH0-Fc5dR4szRMQvYVlHcHWV3LggNiJb5k0cqIv1avUP_VVYcW-0cpfEpgM06300I4LLhUfk0I/s881/IMG_20260610_221531_265.jpg',
-        appearance: '6\'2", razor-sharp jawline, hunter eyes, thick textured black hair, broad shoulders, lean aesthetic physique, defined cheekbones, attractive smile, clear skin | Dressing Sense: Old-money fashion, tailored shirts, luxury watches, oversized jackets, monochrome outfits, premium sneakers',
-        personality: 'Respectful, confident, mature, loyal, disciplined, emotionally intelligent, soft-spoken, gentlemanly',
-        description: 'A high-value Gen-Z gentleman whose elegance, charm, and natural confidence make him unforgettable.'
-    },
-    {
-        name: 'Zayden Cross',
-        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgp9H8_ZP_7aMrvZlwOzTHqTp_cn6mjUMEXM6XYYSPtqSLkIPvksllUi2g4njAPa6jmC8fwNd5BRi3BFD2XQNaTbEsHSTiBnMl9EuqqZxokmeYdjLlnWMUY0rgx7g-GHp319QnITVFSS0SdJyo2_Z2Sj-kFdkchEXGwa2fCA_ZQuCh6yUexS2lxj34InrM/s881/IMG_20260610_221531_510.jpg',
-        appearance: '6\'1", ultra-sharp jawline, deep brown eyes, fluffy dark hair, athletic V-taper physique, strong arms, perfect smile, glowing skin | Dressing Sense: Luxury streetwear, fitted turtlenecks, cargo pants, varsity jackets, silver accessories, designer sneakers',
-        personality: 'Charming, ambitious, protective, humble, supportive, witty, respectful, dependable',
-        description: 'A stylish trendsetter with magnetic energy who balances confidence with genuine kindness.'
-    }
-],
-
-femaleCharacters: [
-    {
-        name: 'Aurelia Vale',
-        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgx-V4x9DUKSUDQCjPEToQIeeC8ZXoZNPdTFb2xZQgaauJYUcsw7J0SCm7p8kbDNUv0vPsPFNAARqa6kFskIl_B-MK_8M-tnzTHG9edcpKa7tcs_rD_yqEo4uK5GC3quxecNvtTLAXImf06j8o-EH7WnVLqPd8NdkcH7O59dkzWQXDeWMAooAkuq56_01o/s881/IMG_20260610_221531_238.jpg',
-        appearance: '5\'7", stunning fair skin, soft blushed cheeks, large doe eyes, silky long blonde hair, heart-shaped face, fit hourglass figure, elegant curves, glossy lips, radiant smile | Dressing Sense: Luxury coquette style, pastel dresses, pearl jewelry, high heels, designer handbags',
-        personality: 'Sweet, caring, affectionate, elegant, supportive, emotionally intelligent, graceful, gentle',
-        description: 'A breathtaking beauty with a warm heart whose elegance and kindness captivate everyone she meets.'
-    },
-    {
-        name: 'Seraphina Bloom',
-        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6ycCrudrm0XQYJSgQ9TEIo5Ze2kiLYxxC2bDecZ2KW52k7pZT2yrq2QzVRFn2Owt98oVmGU0crdstYFBeNpOv6uM0QWjfiPc8CBeSfwy-L3xBBbPhS-v-iISOzpUW9i-Vdq3tkk32q0OQjJZVh7gLlUMQLHrxcG4HGVPuryrTslC3K7V48RX-VTGMpmc/s881/IMG_20260610_221531_322.jpg',
-        appearance: '5\'6", porcelain fair skin, naturally rosy cheeks, emerald eyes, long wavy brunette hair, delicate facial features, toned slim-curvy physique, beautiful smile | Dressing Sense: Chic modern fashion, fitted tops, pleated skirts, knee-high boots, gold accessories',
-        personality: 'Confident, playful, intelligent, loyal, compassionate, charming, optimistic, respectful',
-        description: 'A fashionable social butterfly whose beauty is matched by her bright personality and uplifting energy.'
-    },
-    {
-        name: 'Nyra Celeste',
-        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQXLXwa0pvNKnkWh1HnM9-ROBBjrXDEHg2fGsVOJIR2J0X9WWXACtbTRvbhORuXIaxDdhonIxI_3NerA8Dzb9hnV7dhPCYvdpY6Q_1zCUsF3cQirBttezbLw8xN1Ab3F6pXXdhAHzUqKahUFYKR-6jDffCj4TacRR7nIa5WlsV3O9gOjfi75NUDqbOyFU/s881/IMG_20260610_221531_091.jpg',
-        appearance: '5\'8", flawless fair complexion, soft pink blush, crystal-blue eyes, long silky black hair, sculpted features, athletic curvy figure, graceful posture, enchanting smile | Dressing Sense: Elegant luxury fashion, bodycon dresses, tailored blazers, diamond jewelry, designer heels',
-        personality: 'Sophisticated, ambitious, calm, nurturing, understanding, charismatic, dependable, mature',
-        description: 'A refined beauty with a powerful presence, combining sophistication, warmth, and timeless charm.'
-    }
-],
-
-        
+                    {
+                        name: 'Kael Voss',
+                        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjhfbIKvht7eEwpeAvSgt4i54rSVtVWKd1rcPqalZY4JhOo1C39qJpKsM9uE17H8h9yqmG_iEGhkFJn0xIFYX6F4dFUtH5i5Iv0Sq8vZa6wUKjsi4Gl9CH0-Fc5dR4szRMQvYVlHcHWV3LggNiJb5k0cqIv1avUP_VVYcW-0cpfEpgM06300I4LLhUfk0I/s881/IMG_20260610_221531_265.jpg',
+                        appearance: '6\'2", razor-sharp jawline, hunter eyes, thick textured black hair, broad shoulders, lean aesthetic physique, defined cheekbones, attractive smile, clear skin | Dressing Sense: Old-money fashion, tailored shirts, luxury watches, oversized jackets, monochrome outfits, premium sneakers',
+                        personality: 'Respectful, confident, mature, loyal, disciplined, emotionally intelligent, soft-spoken, gentlemanly',
+                        description: 'A high-value Gen-Z gentleman whose elegance, charm, and natural confidence make him unforgettable.'
+                    },
+                    {
+                        name: 'Zayden Cross',
+                        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgp9H8_ZP_7aMrvZlwOzTHqTp_cn6mjUMEXM6XYYSPtqSLkIPvksllUi2g4njAPa6jmC8fwNd5BRi3BFD2XQNaTbEsHSTiBnMl9EuqqZxokmeYdjLlnWMUY0rgx7g-GHp319QnITVFSS0SdJyo2_Z2Sj-kFdkchEXGwa2fCA_ZQuCh6yUexS2lxj34InrM/s881/IMG_20260610_221531_510.jpg',
+                        appearance: '6\'1", ultra-sharp jawline, deep brown eyes, fluffy dark hair, athletic V-taper physique, strong arms, perfect smile, glowing skin | Dressing Sense: Luxury streetwear, fitted turtlenecks, cargo pants, varsity jackets, silver accessories, designer sneakers',
+                        personality: 'Charming, ambitious, protective, humble, supportive, witty, respectful, dependable',
+                        description: 'A stylish trendsetter with magnetic energy who balances confidence with genuine kindness.'
+                    }
+                ],
+                femaleCharacters: [
+                    {
+                        name: 'Aurelia Vale',
+                        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgx-V4x9DUKSUDQCjPEToQIeeC8ZXoZNPdTFb2xZQgaauJYUcsw7J0SCm7p8kbDNUv0vPsPFNAARqa6kFskIl_B-MK_8M-tnzTHG9edcpKa7tcs_rD_yqEo4uK5GC3quxecNvtTLAXImf06j8o-EH7WnVLqPd8NdkcH7O59dkzWQXDeWMAooAkuq56_01o/s881/IMG_20260610_221531_238.jpg',
+                        appearance: '5\'7", stunning fair skin, soft blushed cheeks, large doe eyes, silky long blonde hair, heart-shaped face, fit hourglass figure, elegant curves, glossy lips, radiant smile | Dressing Sense: Luxury coquette style, pastel dresses, pearl jewelry, high heels, designer handbags',
+                        personality: 'Sweet, caring, affectionate, elegant, supportive, emotionally intelligent, graceful, gentle',
+                        description: 'A breathtaking beauty with a warm heart whose elegance and kindness captivate everyone she meets.'
+                    },
+                    {
+                        name: 'Seraphina Bloom',
+                        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6ycCrudrm0XQYJSgQ9TEIo5Ze2kiLYxxC2bDecZ2KW52k7pZT2yrq2QzVRFn2Owt98oVmGU0crdstYFBeNpOv6uM0QWjfiPc8CBeSfwy-L3xBBbPhS-v-iISOzpUW9i-Vdq3tkk32q0OQjJZVh7gLlUMQLHrxcG4HGVPuryrTslC3K7V48RX-VTGMpmc/s881/IMG_20260610_221531_322.jpg',
+                        appearance: '5\'6", porcelain fair skin, naturally rosy cheeks, emerald eyes, long wavy brunette hair, delicate facial features, toned slim-curvy physique, beautiful smile | Dressing Sense: Chic modern fashion, fitted tops, pleated skirts, knee-high boots, gold accessories',
+                        personality: 'Confident, playful, intelligent, loyal, compassionate, charming, optimistic, respectful',
+                        description: 'A fashionable social butterfly whose beauty is matched by her bright personality and uplifting energy.'
+                    },
+                    {
+                        name: 'Nyra Celeste',
+                        image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQXLXwa0pvNKnkWh1HnM9-ROBBjrXDEHg2fGsVOJIR2J0X9WWXACtbTRvbhORuXIaxDdhonIxI_3NerA8Dzb9hnV7dhPCYvdpY6Q_1zCUsF3cQirBttezbLw8xN1Ab3F6pXXdhAHzUqKahUFYKR-6jDffCj4TacRR7nIa5WlsV3O9gOjfi75NUDqbOyFU/s881/IMG_20260610_221531_091.jpg',
+                        appearance: '5\'8", flawless fair complexion, soft pink blush, crystal-blue eyes, long silky black hair, sculpted features, athletic curvy figure, graceful posture, enchanting smile | Dressing Sense: Elegant luxury fashion, bodycon dresses, tailored blazers, diamond jewelry, designer heels',
+                        personality: 'Sophisticated, ambitious, calm, nurturing, understanding, charismatic, dependable, mature',
+                        description: 'A refined beauty with a powerful presence, combining sophistication, warmth, and timeless charm.'
+                    }
+                ],
                 galleryImages: [
-                            "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMSxx1dIb2AAnXLM5Sd2_Z598QcHOQuzJok5V3Qy2lZkPcW0GubEWZoAV2_9SUtduPwqLSGEoljIiR-6snvG9UcKYtthbCRh_3dkdcQ6wsai91BUaBHGeQX-3I4hb7R-_0Ldc-EuTbpOlcpC0dx2G3oktihV9zXHz8bkWnj9Gf4EhVK_99ADD2anliawo/s768/6ccfbf58ce124995d08fd038b8ff30f429e5c70ebb18c81ea6cdf369b2b1c8d1.jpeg",
+                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMSxx1dIb2AAnXLM5Sd2_Z598QcHOQuzJok5V3Qy2lZkPcW0GubEWZoAV2_9SUtduPwqLSGEoljIiR-6snvG9UcKYtthbCRh_3dkdcQ6wsai91BUaBHGeQX-3I4hb7R-_0Ldc-EuTbpOlcpC0dx2G3oktihV9zXHz8bkWnj9Gf4EhVK_99ADD2anliawo/s768/6ccfbf58ce124995d08fd038b8ff30f429e5c70ebb18c81ea6cdf369b2b1c8d1.jpeg",
                     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCPOiHmnGNgWGAh5S_1-xzGux6xQel4YZIdCFGVxK6D3RmNDZRyxO4ve2KQogdIQpI1fXiJFchNzmG-0u8Cuy2PbtbgPkdpPUv8UJWJEWgtnPR1ra9wvNwE5aNaatDJ92j8lC37W6oXONfZptTUGx2yfhTVjTLauQFU_gl2mNPBbJmI-Kwu1J27tF1Pyg/s768/80fedd55fdab009d1ed5e25842fec03b399b747a3333d0df1f94bb8da93531cd.jpeg",
                     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbbXfcT1LEcdramllIUe8MBaANO-q4h8gpiBfbHQwFeTgB_Ga2if_lzhFrMhsRe-DwI_2VU7ch4wAZoZQLoqtbMsBEFUbZ4QdNu4p4c0fZoaah57xMjHZXnM5BkmjzAyVy88o_77vh4sf0sV4RdlC1-ZHTz8vdBN8revb6PnOpiQAqMOoHLjLUkdTLHwo/s768/a56ea020897a43e8a172e294cc618132f3cd8eb3d76582aa2e5ccd01178343c3.jpeg",
                     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg1GVuSMGltaa_GrlitJ-1S2gnMacPJkeHKLKJhNJrtMyAOMLZgqMqmbZ83-VFREa39-2gCSA6SsytC6GNxc4vc3CzIWCg4DCbavL46EVNE64ybXd68XcbEWjyUPp93LCT9tttJOTt_As2kpjeGlkHKRuwwtVoojPyND1BpthZ23YLiaReVl1iy_P5sT8s/s768/1d31546aa981556a2847107aaf9779944a8477b4c4b19e63007d2e9deb0436ec.jpeg",
@@ -813,7 +1172,8 @@ femaleCharacters: [
                 heroTitle.textContent = CONFIG.app_name;
                 document.title = CONFIG.app_name + ' - Make Friends & Chat';
                 heroImage.src = CONFIG.app_logo;
-                legalLinks.innerHTML = `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank" rel="noopener">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank" rel="noopener">Terms of Service</a>.`;
+                legalLinks.innerHTML =
+                    `By using this app, you agree to our <a href="${CONFIG.privacy_url}" target="_blank" rel="noopener">Privacy Policy</a> and <a href="${CONFIG.terms_url}" target="_blank" rel="noopener">Terms of Service</a>.`;
 
                 // Features
                 featuresGrid.innerHTML = CONFIG.features.map(f => `
@@ -824,21 +1184,12 @@ femaleCharacters: [
                     </div>
                 `).join('');
 
-                // Character Guide (separate male/female)
-                const maleCards = CONFIG.maleCharacters.map(c => `
-                    <div class="guide-card">
-                        <img class="char-img" src="${c.image}" alt="${c.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23fff%22 x=%2250%22 y=%2255%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2214%22%3E${c.name.charAt(0)}%3C/text%3E%3C/svg%3E'">
-                        <div class="info">
-                            <div class="field"><strong>Name:</strong> ${c.name}</div>
-                            <div class="field"><strong>Appearance:</strong> ${c.appearance}</div>
-                            <div class="field"><strong>Personality:</strong> ${c.personality}</div>
-                            <div class="field"><strong>Description:</strong> ${c.description}</div>
-                            <button class="copy-btn" data-copy="Name: ${c.name}\nAppearance: ${c.appearance}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
-                        </div>
-                    </div>
-                `).join('');
+                // Character Guide (separate male/female) – escape double quotes for data-copy
+                const escapeForAttr = (str) => str.replace(/"/g, '&quot;').replace(/\n/g, '&#10;');
 
-                const femaleCards = CONFIG.femaleCharacters.map(c => `
+                const maleCards = CONFIG.maleCharacters.map(c => {
+                    const copyText = `Name: ${c.name}\nAppearance: ${c.appearance}\nPersonality: ${c.personality}\nDescription: ${c.description}`;
+                    return `
                     <div class="guide-card">
                         <img class="char-img" src="${c.image}" alt="${c.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23fff%22 x=%2250%22 y=%2255%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2214%22%3E${c.name.charAt(0)}%3C/text%3E%3C/svg%3E'">
                         <div class="info">
@@ -846,10 +1197,25 @@ femaleCharacters: [
                             <div class="field"><strong>Appearance:</strong> ${c.appearance}</div>
                             <div class="field"><strong>Personality:</strong> ${c.personality}</div>
                             <div class="field"><strong>Description:</strong> ${c.description}</div>
-                            <button class="copy-btn" data-copy="Name: ${c.name}\nAppearance: ${c.appearance}\nPersonality: ${c.personality}\nDescription: ${c.description}">📋 Copy Blueprint</button>
+                            <button class="copy-btn" data-copy="${escapeForAttr(copyText)}">📋 Copy Blueprint</button>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
+
+                const femaleCards = CONFIG.femaleCharacters.map(c => {
+                    const copyText = `Name: ${c.name}\nAppearance: ${c.appearance}\nPersonality: ${c.personality}\nDescription: ${c.description}`;
+                    return `
+                    <div class="guide-card">
+                        <img class="char-img" src="${c.image}" alt="${c.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23fff%22 x=%2250%22 y=%2255%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2214%22%3E${c.name.charAt(0)}%3C/text%3E%3C/svg%3E'">
+                        <div class="info">
+                            <div class="field"><strong>Name:</strong> ${c.name}</div>
+                            <div class="field"><strong>Appearance:</strong> ${c.appearance}</div>
+                            <div class="field"><strong>Personality:</strong> ${c.personality}</div>
+                            <div class="field"><strong>Description:</strong> ${c.description}</div>
+                            <button class="copy-btn" data-copy="${escapeForAttr(copyText)}">📋 Copy Blueprint</button>
+                        </div>
+                    </div>
+                `}).join('');
 
                 characterGuide.innerHTML = `
                     <div class="character-category">
@@ -863,7 +1229,7 @@ femaleCharacters: [
                     <a href="https://t.me/roleverseai" target="_blank" rel="noopener" class="btn btn-secondary" style="display:flex; width:100%; margin-top:8px;">✨ More Character Ideas</a>
                 `;
 
-                // Copy button listeners
+                // Copy button listeners (now with proper escaped text)
                 document.querySelectorAll('.copy-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const text = btn.dataset.copy;
@@ -874,15 +1240,22 @@ femaleCharacters: [
                     });
                 });
 
-                // Gallery
-                function getRandomImage() {
-                    const arr = CONFIG.galleryImages;
-                    return arr[Math.floor(Math.random() * arr.length)];
+                // Gallery – ensure no duplicates in the same 4-set
+                function getRandomUniqueImages(count) {
+                    const pool = [...CONFIG.galleryImages];
+                    // Fisher-Yates shuffle
+                    for (let i = pool.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [pool[i], pool[j]] = [pool[j], pool[i]];
+                    }
+                    return pool.slice(0, count);
                 }
+
                 function updateGallery() {
-                    const images = [];
-                    for (let i = 0; i < 4; i++) images.push(getRandomImage());
-                    galleryGrid.innerHTML = images.map(img => `<div class="gallery-item"><img src="${img}" alt="AI generated" loading="lazy"></div>`).join('');
+                    const images = getRandomUniqueImages(4);
+                    galleryGrid.innerHTML = images.map(img =>
+                        `<div class="gallery-item"><img src="${img}" alt="AI generated" loading="lazy"></div>`
+                    ).join('');
                 }
                 updateGallery();
                 shuffleBtn.addEventListener('click', updateGallery);
@@ -901,18 +1274,17 @@ femaleCharacters: [
                     return `<a class="social-card" href="${s.url}" target="_blank" rel="noopener">${icon}<span>${s.platform}</span></a>`;
                 }).join('');
 
-                // Initialize notifications (dynamic fetching)
+                // Initialize notifications
                 initNotifications();
             }
 
             // ---------- Circular Loading Popup (3 sec) ----------
             function showCircularLoading(callback) {
                 circularPopupOverlay.classList.add('active');
-                const circumference = 2 * Math.PI * 40; // r=40
+                const circumference = 2 * Math.PI * 40;
                 spinnerProgress.style.strokeDasharray = circumference;
                 spinnerProgress.style.strokeDashoffset = circumference;
                 spinnerProgress.style.transition = 'none';
-                // Force reflow
                 void spinnerProgress.offsetWidth;
                 spinnerProgress.style.transition = 'stroke-dashoffset 3s linear';
                 spinnerProgress.style.strokeDashoffset = '0';
@@ -960,6 +1332,7 @@ femaleCharacters: [
                     return [];
                 }
             }
+
             function setReadIds(ids) {
                 localStorage.setItem(NOTIF_READ_IDS_KEY, JSON.stringify(ids));
             }
@@ -996,9 +1369,10 @@ femaleCharacters: [
 
             function showNotifModal() {
                 renderNotifModal();
-                markAllNotificationsRead(); // all become read when modal opened
+                markAllNotificationsRead();
                 notifModalOverlay.classList.add('visible');
             }
+
             function hideNotifModal() {
                 notifModalOverlay.classList.remove('visible');
             }
@@ -1023,10 +1397,11 @@ femaleCharacters: [
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const name = $('#contactName').value.trim(),
-                      email = $('#contactEmail').value.trim(),
-                      msg = $('#contactMessage').value.trim();
+                    email = $('#contactEmail').value.trim(),
+                    msg = $('#contactMessage').value.trim();
                 if (!name || !email || !msg) { alert('Please fill all fields.'); return; }
-                window.location.href = `mailto:support@virtualdatinghub.com?subject=RoleVerse%20Support&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
+                window.location.href =
+                    `mailto:support@virtualdatinghub.com?subject=RoleVerse%20Support&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
                 contactForm.reset();
             });
 
@@ -1036,4 +1411,4 @@ femaleCharacters: [
         })();
     </script>
 </body>
-</html>
+            </html>
