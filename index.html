@@ -865,7 +865,9 @@
     <div class="footer-frame"></div>
 
     <!-- ─── Floating "Get More Time" Pill (Always Visible) ─── -->
-    
+    <a class="floating-get-time" href="roleverse://gettime" title="Watch ad to earn more chat time">
+        <span class="floating-icon">📺</span> +Time
+    </a>
 
     <!-- Circular Loading Popup (Start Chatting) -->
     <div class="circular-popup-overlay" id="circularPopupOverlay">
@@ -919,7 +921,14 @@
                 <button class="btn btn-primary" id="btnStartChatting">Start Chatting</button>
 
                 <!-- ─── Prominent "Get More Time" Button on Home Page ─── -->
-                
+                <div class="home-divider">Earn More Time</div>
+                <button class="btn btn-get-time" onclick="window.location.href='roleverse://gettime'">
+                    <span class="ad-icon">📺</span> Watch Ad & Get More Time
+                </button>
+                <p style="font-size:0.7rem; color:var(--text-muted); margin-top:6px; max-width:280px; margin-left:auto; margin-right:auto;">
+                    Watch a short ad to extend your chatting session
+                </p>
+
                 <div class="legal-links" id="legalLinks"></div>
             </section>
         </div>
@@ -1014,7 +1023,7 @@
             const CONFIG = {
                 app_name: 'RoleVerse AI',
                 app_logo: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgV379sBO9sH0aMO1wSSCVeW6Nlvj1Jx3IPMAQ7i9p0Gw4Q0Rd32pMDazddMIUdF7o1YCN1kZXGikiXmxTIdRMt68m_f4BPs-gL5kRplHm6pkWl81vgato4NoQLe8P5ACoPnU4Ae7Hiw48l3pPy9q-UQFjNQW1WypZQVfYH5PdGtXOuQ-i500tS5tIQXlQ/s612/roleverserai.png',
-                chat_url: 'https://perchance.org/weeee',
+                chat_url: 'https://perchance.org/roleverse',
                 privacy_url: 'https://roleverseai.blogspot.com/p/privacy-policy.html',
                 terms_url: 'https://roleverseai.blogspot.com/p/terms-of-service.html',
                 notifications_url: '',
@@ -1402,4 +1411,4 @@
         })();
     </script>
 </body>
-    </html>
+            </html>
